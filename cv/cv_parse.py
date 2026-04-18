@@ -17,6 +17,8 @@ def extract_text(filepath):
     elif filepath.endswith(".docx"):
         doc = docx.Document(filepath)
         return "\n".join(p.text for p in doc.paragraphs)
+    else:
+        raise ValueError("Unsupported file format. Only PDF and DOCX are supported.")
 
 
 def parse(text) -> dict:
@@ -109,16 +111,22 @@ CV TEXT:
 
 
 def main():
+    if len(sys.argv) != 2:
+        print("Usage: python cv_parse.py <path_to_cv>")
+        return
+
     filepath = sys.argv[1]
     if not os.path.exists(filepath):
         print(f"File {filepath} does not exist.")
         return
+
     text = extract_text(filepath)
     data = json.dumps(parse(text))
     filename = os.path.splitext(os.path.basename(filepath))[0]
     output_path = f"{filename}_parsed.json"
-    with open(output_path, "w") as f:
+    with open(output_path, "w", encoding="utf-8") as f:
         f.write(data)
+
     print(f"Output file: {output_path}")
 
 
