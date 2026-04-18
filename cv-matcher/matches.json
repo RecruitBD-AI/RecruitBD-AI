@@ -1,0 +1,362 @@
+[
+  {
+    "job_id": "1475976",
+    "job_title": "Senior Executive - Graphic Designer",
+    "company": "Best Electronics Limited",
+    "location": "Dhaka (Motijheel)",
+    "salary_range": "--",
+    "deadline": "Apr 25, 2026",
+    "final_score": 57.74,
+    "breakdown": {
+      "skill_match": 30.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 39.8,
+      "title_match": 47.8,
+      "skill_source": 30.0,
+      "seniority_penalty": 1.0
+    }
+  },
+  {
+    "job_id": "1475827",
+    "job_title": "Digital Marketer (Sr. Executive)",
+    "company": "Anondo Housing Society",
+    "location": "Dhaka",
+    "salary_range": "Tk. 25000 - 30000 (Monthly)",
+    "deadline": "May 9, 2026",
+    "final_score": 57.74,
+    "breakdown": {
+      "skill_match": 30.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 44.1,
+      "title_match": 41.3,
+      "skill_source": 30.0,
+      "seniority_penalty": 1.0
+    }
+  },
+  {
+    "job_id": "1471475",
+    "job_title": "Backend Developer (Executive/ Sr. Executive)",
+    "company": "Pakiza Software Limited",
+    "location": "Dhaka (Dhanmondi)",
+    "salary_range": "Negotiable",
+    "deadline": "Apr 28, 2026",
+    "final_score": 57.57,
+    "breakdown": {
+      "skill_match": 28.8,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 49.1,
+      "title_match": 51.3,
+      "skill_source": 0.0,
+      "seniority_penalty": 1.0
+    }
+  },
+  {
+    "job_id": "1477039",
+    "job_title": "Sr. SQA Engineer",
+    "company": "Orange Business Development Ltd. (Orangebd)",
+    "location": "Dhaka (DOHS Baridhara)",
+    "salary_range": "Negotiable",
+    "deadline": "May 13, 2026",
+    "final_score": 57.5,
+    "breakdown": {
+      "skill_match": 30.3,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 42.8,
+      "title_match": 54.9,
+      "skill_source": 0.0,
+      "seniority_penalty": 1.0
+    }
+  },
+  {
+    "job_id": "1475844",
+    "job_title": "Senior Electrical Engineer",
+    "company": "Myth Limited",
+    "location": "Dhaka",
+    "salary_range": "--",
+    "deadline": "Apr 25, 2026",
+    "final_score": 57.42,
+    "breakdown": {
+      "skill_match": 30.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 32.3,
+      "title_match": 55.7,
+      "skill_source": 30.0,
+      "seniority_penalty": 1.0
+    }
+  },
+  {
+    "job_id": "1470374",
+    "job_title": "Senior Software Engineer (Python)",
+    "company": "API Solutions Ltd",
+    "location": "Dhaka (Banani)",
+    "salary_range": "Tk. 50000 - 60000 (Monthly)",
+    "deadline": "Apr 20, 2026",
+    "final_score": 57.33,
+    "breakdown": {
+      "skill_match": 26.2,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 41.3,
+      "title_match": 62.3,
+      "skill_source": 14.3,
+      "seniority_penalty": 1.0
+    }
+  },
+  {
+    "job_id": "1472678",
+    "job_title": "Senior Architect",
+    "company": "Karigor Interior BD",
+    "location": "Anywhere in Bangladesh",
+    "salary_range": "--",
+    "deadline": "Apr 30, 2026",
+    "final_score": 57.16,
+    "breakdown": {
+      "skill_match": 30.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 34.2,
+      "title_match": 50.3,
+      "skill_source": 30.0,
+      "seniority_penalty": 1.0
+    }
+  },
+  {
+    "job_id": "1471815",
+    "job_title": "Project Engineer/Sr. Project Engineer",
+    "company": "P2P Family",
+    "location": "Dhaka",
+    "salary_range": "Negotiable",
+    "deadline": "Apr 29, 2026",
+    "final_score": 57.08,
+    "breakdown": {
+      "skill_match": 30.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 24.8,
+      "title_match": 63.7,
+      "skill_source": 30.0,
+      "seniority_penalty": 1.0
+    }
+  },
+  {
+    "job_id": "1473960",
+    "job_title": "Sr.Project Coordinator/ Sr.Site Engineer",
+    "company": "Interior Studio",
+    "location": "Dhaka (GULSHAN 2)",
+    "salary_range": "Negotiable",
+    "deadline": "May 4, 2026",
+    "final_score": 56.83,
+    "breakdown": {
+      "skill_match": 30.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 29.1,
+      "title_match": 54.6,
+      "skill_source": 30.0,
+      "seniority_penalty": 1.0
+    }
+  },
+  {
+    "job_id": "1472843",
+    "job_title": "Senior Business Development Executive",
+    "company": "Analyzen Bangladesh Limited",
+    "location": "Dhaka (GULSHAN 1)",
+    "salary_range": "Negotiable",
+    "deadline": "May 1, 2026",
+    "final_score": 56.76,
+    "breakdown": {
+      "skill_match": 30.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 34.0,
+      "title_match": 46.6,
+      "skill_source": 30.0,
+      "seniority_penalty": 1.0
+    }
+  },
+  {
+    "job_id": "1476359",
+    "job_title": "Asst. Engineer/ Sr. Engineer, (Pre-fabricated Steel Building Sales)",
+    "company": "MARN Steel Structure Ltd.",
+    "location": "Chattogram (Chattogram Sadar)",
+    "salary_range": "Negotiable",
+    "deadline": "May 11, 2026",
+    "final_score": 56.48,
+    "breakdown": {
+      "skill_match": 30.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 33.6,
+      "title_match": 44.3,
+      "skill_source": 30.0,
+      "seniority_penalty": 1.0
+    }
+  },
+  {
+    "job_id": "1470826",
+    "job_title": "Senior Travel Consultant (Male/Female)",
+    "company": "Visa World Bangladesh",
+    "location": "Dhaka (GULSHAN 1)",
+    "salary_range": "Negotiable",
+    "deadline": "Apr 27, 2026",
+    "final_score": 56.43,
+    "breakdown": {
+      "skill_match": 30.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 42.0,
+      "title_match": 31.4,
+      "skill_source": 30.0,
+      "seniority_penalty": 1.0
+    }
+  },
+  {
+    "job_id": "1473702",
+    "job_title": "Senior Graphic Designer",
+    "company": "Fancy Limited Bangladesh",
+    "location": "Dhaka (Elephant Road)",
+    "salary_range": "Negotiable",
+    "deadline": "May 4, 2026",
+    "final_score": 56.36,
+    "breakdown": {
+      "skill_match": 30.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 27.5,
+      "title_match": 52.4,
+      "skill_source": 30.0,
+      "seniority_penalty": 1.0
+    }
+  },
+  {
+    "job_id": "1473424",
+    "job_title": "Gym Trainer",
+    "company": "Automan Fitness Gym",
+    "location": "Dhaka (Dhanmondi, Tejgaon)",
+    "salary_range": "Negotiable",
+    "deadline": "May 2, 2026",
+    "final_score": 56.19,
+    "breakdown": {
+      "skill_match": 30.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 35.2,
+      "title_match": 39.2,
+      "skill_source": 30.0,
+      "seniority_penalty": 1.0
+    }
+  },
+  {
+    "job_id": "1474227",
+    "job_title": "Senior Executive - Sales & Marketing",
+    "company": "Suprem Engineering Limited",
+    "location": "Anywhere in Bangladesh",
+    "salary_range": "--",
+    "deadline": "Apr 25, 2026",
+    "final_score": 56.11,
+    "breakdown": {
+      "skill_match": 30.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 37.2,
+      "title_match": 35.3,
+      "skill_source": 30.0,
+      "seniority_penalty": 1.0
+    }
+  },
+  {
+    "job_id": "1475454",
+    "job_title": "Sr. Executive / Executive- Sales & Marketing",
+    "company": "Essence Medical Bangladesh Limited.",
+    "location": "Dhaka (Banani)",
+    "salary_range": "Negotiable",
+    "deadline": "Apr 30, 2026",
+    "final_score": 56.07,
+    "breakdown": {
+      "skill_match": 30.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 34.6,
+      "title_match": 38.8,
+      "skill_source": 30.0,
+      "seniority_penalty": 1.0
+    }
+  },
+  {
+    "job_id": "1473863",
+    "job_title": "Officer/Sr. Officer - Industrial Engineering (IE)",
+    "company": "Soorty Textiles (BD) Ltd.",
+    "location": "Cumilla (Cumilla Adarsha Sadar)",
+    "salary_range": "Negotiable",
+    "deadline": "May 4, 2026",
+    "final_score": 56.05,
+    "breakdown": {
+      "skill_match": 30.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 23.9,
+      "title_match": 54.6,
+      "skill_source": 30.0,
+      "seniority_penalty": 1.0
+    }
+  },
+  {
+    "job_id": "1477073",
+    "job_title": "Senior/ Assessment & Recovery Officer (Tractor & Harvester)",
+    "company": "ACI Motors Limited",
+    "location": "Anywhere in Bangladesh",
+    "salary_range": "Negotiable",
+    "deadline": "May 10, 2026",
+    "final_score": 55.9,
+    "breakdown": {
+      "skill_match": 30.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 33.2,
+      "title_match": 39.2,
+      "skill_source": 30.0,
+      "seniority_penalty": 1.0
+    }
+  },
+  {
+    "job_id": "1472448",
+    "job_title": "Sales Executive/ Sr. Sales Executive",
+    "company": "ARSA POWER SOLUTION",
+    "location": "Anywhere in Bangladesh",
+    "salary_range": "Negotiable",
+    "deadline": "Apr 30, 2026",
+    "final_score": 55.85,
+    "breakdown": {
+      "skill_match": 30.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 34.2,
+      "title_match": 37.1,
+      "skill_source": 30.0,
+      "seniority_penalty": 1.0
+    }
+  },
+  {
+    "job_id": "1477323",
+    "job_title": "Fashion Designer/Senior Fashion Designer",
+    "company": "Jay Jay Mills (Bangladesh) Pvt. Ltd.",
+    "location": "Chattogram (Chittagong Epz)",
+    "salary_range": "Negotiable",
+    "deadline": "May 13, 2026",
+    "final_score": 55.83,
+    "breakdown": {
+      "skill_match": 30.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 29.8,
+      "title_match": 43.7,
+      "skill_source": 30.0,
+      "seniority_penalty": 1.0
+    }
+  }
+]

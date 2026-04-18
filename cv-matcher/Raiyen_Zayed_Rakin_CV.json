@@ -1,0 +1,90 @@
+{
+  "name": "Raiyen Zayed Rakin",
+  "email": "raiyenzayedrakin@gmail.com",
+  "phone": [
+    "01779309553",
+    "01973389048"
+  ],
+  "location": "Shiddeshwari Circular Road, Ramna, Dhaka-1217",
+  "summary": "An aspiring computer science and engineering professional with a passion for technology, problem-solving, and continuous learning, seeking to apply my skills in innovative software development and AI-driven solutions.",
+  "skills": [
+    "Windows",
+    "Linux-Ubuntu",
+    "Excel",
+    "Word",
+    "Powerpoint",
+    "Visual Studio",
+    "VS Code",
+    "Pycharm",
+    "AutoCAD",
+    "OneDrive",
+    "C",
+    "C++",
+    "JAVA",
+    "PYTHON",
+    "JAVASCRIPT",
+    "SQL",
+    "Jupyter Notebook",
+    "MySql",
+    "Oracle",
+    "Git",
+    "Github",
+    "Public Presentations",
+    "Proposal Writing",
+    "Leadership",
+    "Active Listening",
+    "Collaboration",
+    "Bangla",
+    "English",
+    "Hindi",
+    "Japanese"
+  ],
+  "experience": [
+    {
+      "title": "AIUB FITNESS ZONE",
+      "company": "AIUB Fitness Zone",
+      "start_date": "",
+      "end_date": "",
+      "description": "A comprehensive fitness management platform tailored for students and faculties of AIUB. The app provides workout plans, health resources and challenges. Designed to promote physical well-being and a healthier lifestyle within the university community."
+    },
+    {
+      "title": "STUDENTDASH2.0",
+      "company": "STUDENTDASH2.0",
+      "start_date": "",
+      "end_date": "",
+      "description": "A ride-sharing application specifically designed for the student community. It serves users with affordable transportation options, safely share ride with other students all within their community and tracks everything effortlessly."
+    },
+    {
+      "title": "AIUB CGPA CALCULATOR",
+      "company": "AIUB CGPA CALCULATOR",
+      "start_date": "",
+      "end_date": "",
+      "description": "A responsive web-based CGPA calculator for AIUB students. It allows users to input their grades (A+ to F) and corresponding credit counts to calculate their cumulative GPA., slick and mobile-friendly design to ensure usability on all devices."
+    }
+  ],
+  "education": [
+    {
+      "degree": "Bachelor of Science in Computer Science and Engineering",
+      "institution": "American International University-Bangladesh",
+      "year": "January 2023 till now (7th Semester)"
+    },
+    {
+      "degree": "Higher School Certificate",
+      "institution": "Dhaka Imperial College",
+      "year": "2019 – 2021"
+    },
+    {
+      "degree": "Secondary School Certificate",
+      "institution": "Motijheel Model High School",
+      "year": "2017 – 2019"
+    }
+  ],
+  "languages": [
+    "Bangla",
+    "English",
+    "Hindi",
+    "Japanese"
+  ],
+  "certifications": [],
+  "references": []
+}

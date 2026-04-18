@@ -1,0 +1,70 @@
+{
+  "name": "MD ALIF ZIAD SARKAR",
+  "email": "ziadalif01@gmail.com",
+  "phone": [
+    "+8801625137133"
+  ],
+  "location": "house-03, Road-5/A, Ranavola, Uttara, Dhaka",
+  "summary": "Final-year Computer Science and Engineering student at American International University-Bangladesh with strong interest in software development and technology-based solutions. Experienced in developing academic projects including an e-commerce management system and involved in online business operations through Nirjhor Crafts. Possess strong analytical, communication, and problem-solving skills developed through tutoring and project work.",
+  "skills": [
+    "software development",
+    "problem-solving",
+    "communication",
+    "analytical"
+  ],
+  "experience": [
+    {
+      "title": "Tutor",
+      "company": "caretutors",
+      "start_date": "2023",
+      "end_date": "2025",
+      "description": "Taught mathematics and science to students from classes 7–10 in Bangla medium and English version schools. Helped students improve understanding of academic subjects through structured lessons and problem-solving practice. Developed communication and teaching skills through regular interaction with students."
+    },
+    {
+      "title": "Business Partner",
+      "company": "Nirjhor Crafts",
+      "start_date": "2025",
+      "end_date": "Present",
+      "description": "Involved in managing an online craft business operating through social media platforms. Assisted with product promotion, customer communication, and order coordination. Contributed to online business operations and digital marketing activities."
+    }
+  ],
+  "education": [
+    {
+      "degree": "BSc in CSE",
+      "institution": "American International University-Bangladesh",
+      "year": "2026"
+    },
+    {
+      "degree": "HSC in Science",
+      "institution": "Milestone College",
+      "year": "2021"
+    },
+    {
+      "degree": "SSC in Science",
+      "institution": "Milestone College",
+      "year": "2019"
+    }
+  ],
+  "languages": [],
+  "certifications": [],
+  "references": [
+    {
+      "name": "Md Sharfuddin Mahmood",
+      "designation": "Assistant Professor",
+      "institution": "American International University- Bangladesh",
+      "email": "smahmood@aiub.edu"
+    },
+    {
+      "name": "Dipta Justin Gomes",
+      "designation": "Assistant Professor",
+      "institution": "American International University- Bangladesh",
+      "email": "diptagomes@aiub.edu"
+    },
+    {
+      "name": "Sultanul Arifeen Hamim",
+      "designation": "Lecturer",
+      "institution": "American International University bangladesh",
+      "email": "hamim@aiub.edu"
+    }
+  ]
+}
