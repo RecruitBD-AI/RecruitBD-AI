@@ -6,9 +6,9 @@ Only encodes the CV — job embeddings are loaded from disk instantly.
 
 Run build_index.py ONCE first, then use this for every CV.
 
-Usage:
-  python cv_matcher.py --cv parsed_cv.json --index job_index --top 10
-  python cv_matcher.py --cv parsed_cv.json --index job_index --top 20 --output matches.json
+
+
+command: python cv_matcher5.py --cv cv-jsons/Raiyen_Zayed_Rakin_CV.json --index csv-encoder/job_index --top 10 --output matches.json
 """
 
 import re
