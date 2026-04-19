@@ -1,0 +1,342 @@
+[
+  {
+    "job_id": "1475567",
+    "job_title": "Data Entry Operator",
+    "company": "BD MERIT",
+    "location": "Dhaka (Khilkhet)",
+    "salary_range": "Tk. 11000 - 15000 (Monthly)",
+    "deadline": "Apr 30, 2026",
+    "final_score": 65.62,
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 31.2,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1477243",
+    "job_title": "Factory Assistant Manager/Manager (Mechanical Engineering)",
+    "company": "Navana Industries Ltd",
+    "location": "Anywhere in Bangladesh",
+    "salary_range": "Negotiable",
+    "deadline": "May 13, 2026",
+    "final_score": 63.74,
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 12.4,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1477243",
+    "job_title": "Factory Assistant Manager/Manager (Mechanical Engineering)",
+    "company": "Navana Industries Ltd",
+    "location": "Anywhere in Bangladesh",
+    "salary_range": "Negotiable",
+    "deadline": "May 13, 2026",
+    "final_score": 63.74,
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 12.4,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1474271",
+    "job_title": "Technician (Repair Machine)",
+    "company": "Kendall Manufacturing Co. Ltd.",
+    "location": "Bagerhat, Khulna",
+    "salary_range": "Tk. 170800 (Monthly)",
+    "deadline": "Apr 20, 2026",
+    "final_score": 61.69,
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 88.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 15.9,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1474332",
+    "job_title": "QC InCharge",
+    "company": "DADA(DHAKA) LTD",
+    "location": "Gazipur (Tongi)",
+    "salary_range": "Tk. 25000 - 28000 (Monthly)",
+    "deadline": "Apr 30, 2026",
+    "final_score": 61.27,
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 27.7,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1475836",
+    "job_title": "Deputy Project Engr.",
+    "company": "Theme Engineers Ltd",
+    "location": "Dhaka (DOHS Baridhara)",
+    "salary_range": "Tk. 45000 - 50000 (Monthly)",
+    "deadline": "May 9, 2026",
+    "final_score": 61.05,
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 25.5,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1476480",
+    "job_title": "আবাসিক মেডিকেল অফিসার",
+    "company": "PATWARY GENERAL HOSPITAL",
+    "location": "Natore, Natore (Baraigram)",
+    "salary_range": "Negotiable",
+    "deadline": "May 12, 2026",
+    "final_score": 60.95,
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 24.5,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1473799",
+    "job_title": "সহকারী শিক্ষক গণিত",
+    "company": "রফিউদ্দিন মেমোরিয়াল একাডেমী",
+    "location": "Munshiganj",
+    "salary_range": "Tk. 15000 - 16000 (Monthly)",
+    "deadline": "May 4, 2026",
+    "final_score": 60.8,
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 23.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1476270",
+    "job_title": "সহকারি শিক্ষক",
+    "company": "Prisons Public School , Sylhet",
+    "location": "Sylhet",
+    "salary_range": "Negotiable",
+    "deadline": "Apr 25, 2026",
+    "final_score": 60.78,
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 22.8,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1471999",
+    "job_title": "হিউম্যান রিসোর্স অফিসার",
+    "company": "Marsa",
+    "location": "Chattogram (Chattogram Sadar)",
+    "salary_range": "Negotiable",
+    "deadline": "Apr 27, 2026",
+    "final_score": 60.78,
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 22.8,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1477349",
+    "job_title": "Ward Boy / Aya",
+    "company": "ANWER KHAN MODERN MEDICAL COLLEGE HOSPITAL, ANWER KHAN MODERN GROUP",
+    "location": "Dhaka",
+    "salary_range": "Negotiable",
+    "deadline": "Apr 30, 2026",
+    "final_score": 60.77,
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 22.7,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1472838",
+    "job_title": "সহ-ব্যবস্থাপক (মার্কেটিং এন্ড মার্চেন্ডাইজিং - সোয়েটার ডিভিশন)",
+    "company": "Best Tech engineering",
+    "location": "Anywhere in Bangladesh",
+    "salary_range": "Negotiable",
+    "deadline": "May 1, 2026",
+    "final_score": 60.66,
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 21.6,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1476493",
+    "job_title": "আইইএলটিস ট্রেইনার",
+    "company": "Scholar Hub (Satkhira)",
+    "location": "Satkhira, Satkhira (Satkhira Sadar)",
+    "salary_range": "Tk. 20000 (Monthly)",
+    "deadline": "Apr 30, 2026",
+    "final_score": 60.59,
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 20.9,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1474830",
+    "job_title": "সহ-ব্যবস্থাপক মার্চেন্ডাইজার এন্ড মার্কেটিং (সোয়েটার ডিভিশন)",
+    "company": "Best Tech engineering",
+    "location": "Dhaka",
+    "salary_range": "Negotiable",
+    "deadline": "May 7, 2026",
+    "final_score": 60.55,
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 20.5,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1477851",
+    "job_title": "Worker (Albenia & Malta)",
+    "company": "Aster International (RL- 2379)(RL2379)",
+    "location": "Albania, Malta",
+    "salary_range": "Tk. 60000 - 100000 (Monthly)",
+    "deadline": "May 15, 2026",
+    "final_score": 60.46,
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 19.6,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1474021",
+    "job_title": "QA Manager",
+    "company": "Liaison on garments buying.",
+    "location": "Dhaka",
+    "salary_range": "Negotiable",
+    "deadline": "Apr 30, 2026",
+    "final_score": 60.46,
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 19.6,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1473521",
+    "job_title": "Computer Operator / Typist",
+    "company": "COMPUTER OPERATOR",
+    "location": "Dhaka (DOHS Mohakhali)",
+    "salary_range": "Tk. 10000 - 12000 (Monthly)",
+    "deadline": "Apr 30, 2026",
+    "final_score": 60.45,
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 19.5,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1478270",
+    "job_title": "Asst. Manager/ Dy Manager (Tender)",
+    "company": "A Reputed Group Of Companies",
+    "location": "Anywhere in Bangladesh",
+    "salary_range": "Negotiable",
+    "deadline": "May 16, 2026",
+    "final_score": 60.4,
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 19.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1470303",
+    "job_title": "Call Center Agent",
+    "company": "MY Outsourcing Ltd.",
+    "location": "Dhaka",
+    "salary_range": "Tk. 10000 - 12000 (Monthly)",
+    "deadline": "Apr 24, 2026",
+    "final_score": 60.39,
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 18.9,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1476637",
+    "job_title": "Floor In-Charge (Healthcare)",
+    "company": "Mashallah Group",
+    "location": "Dhaka (Basundhara RA)",
+    "salary_range": "Negotiable",
+    "deadline": "May 12, 2026",
+    "final_score": 60.36,
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 18.6,
+      "skill_source_bonus": 50.0
+    }
+  }
+]

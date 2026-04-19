@@ -1,0 +1,462 @@
+[
+  {
+    "job_id": "1475567",
+    "job_title": "Data Entry Operator",
+    "company": "BD MERIT",
+    "location": "Dhaka (Khilkhet)",
+    "salary_range": "Tk. 11000 - 15000 (Monthly)",
+    "deadline": "Apr 30, 2026",
+    "final_score": 65.62,
+    "seniority": {
+      "candidate": 2,
+      "job": 2,
+      "penalty": 1.0
+    },
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 31.2,
+      "tfidf_keyword": 50.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1471419",
+    "job_title": "Marketing Executive",
+    "company": "Water Link Bangladesh",
+    "location": "Chattogram, Dhaka",
+    "salary_range": "Tk. 20000 - 30000 (Monthly)",
+    "deadline": "Apr 28, 2026",
+    "final_score": 62.39,
+    "seniority": {
+      "candidate": 2,
+      "job": 2,
+      "penalty": 1.0
+    },
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 36.4,
+      "title_match": 8.2,
+      "tfidf_keyword": 60.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1474271",
+    "job_title": "Technician (Repair Machine)",
+    "company": "Kendall Manufacturing Co. Ltd.",
+    "location": "Bagerhat, Khulna",
+    "salary_range": "Tk. 170800 (Monthly)",
+    "deadline": "Apr 20, 2026",
+    "final_score": 61.69,
+    "seniority": {
+      "candidate": 2,
+      "job": 2,
+      "penalty": 1.0
+    },
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 88.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 15.9,
+      "tfidf_keyword": 50.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1477837",
+    "job_title": "Associate / Junior Software Engineer",
+    "company": "System Resources Limited",
+    "location": "Dhaka",
+    "salary_range": "Negotiable",
+    "deadline": "Apr 30, 2026",
+    "final_score": 61.35,
+    "seniority": {
+      "candidate": 2,
+      "job": 2,
+      "penalty": 1.0
+    },
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 46.9,
+      "title_match": 27.2,
+      "tfidf_keyword": 0.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1473508",
+    "job_title": "Computer Operator",
+    "company": "Nibras International School",
+    "location": "Dhaka (Mirpur)",
+    "salary_range": "Negotiable",
+    "deadline": "May 2, 2026",
+    "final_score": 61.33,
+    "seniority": {
+      "candidate": 2,
+      "job": 2,
+      "penalty": 1.0
+    },
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 34.7,
+      "title_match": 27.7,
+      "tfidf_keyword": 20.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1474332",
+    "job_title": "QC InCharge",
+    "company": "DADA(DHAKA) LTD",
+    "location": "Gazipur (Tongi)",
+    "salary_range": "Tk. 25000 - 28000 (Monthly)",
+    "deadline": "Apr 30, 2026",
+    "final_score": 61.27,
+    "seniority": {
+      "candidate": 2,
+      "job": 2,
+      "penalty": 1.0
+    },
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 27.7,
+      "tfidf_keyword": 50.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1474221",
+    "job_title": "Data Entry Operator (Night Shift)",
+    "company": "Linfo LLC",
+    "location": "Dhaka (Banani)",
+    "salary_range": "Tk. 15000 - 15000 (Monthly)",
+    "deadline": "May 5, 2026",
+    "final_score": 61.26,
+    "seniority": {
+      "candidate": 2,
+      "job": 2,
+      "penalty": 1.0
+    },
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 49.4,
+      "title_match": 23.4,
+      "tfidf_keyword": 0.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1474221",
+    "job_title": "Data Entry Operator (Night Shift)",
+    "company": "Linfo LLC",
+    "location": "Dhaka (Banani)",
+    "salary_range": "Tk. 15000 - 15000 (Monthly)",
+    "deadline": "May 5, 2026",
+    "final_score": 61.26,
+    "seniority": {
+      "candidate": 2,
+      "job": 2,
+      "penalty": 1.0
+    },
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 49.4,
+      "title_match": 23.4,
+      "tfidf_keyword": 0.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1473085",
+    "job_title": "Diploma Engineer",
+    "company": "Baridhara Cosmopolitan Club Limited",
+    "location": "Dhaka",
+    "salary_range": "Negotiable",
+    "deadline": "May 2, 2026",
+    "final_score": 61.18,
+    "seniority": {
+      "candidate": 2,
+      "job": 2,
+      "penalty": 1.0
+    },
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 41.2,
+      "title_match": 32.4,
+      "tfidf_keyword": 0.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1475836",
+    "job_title": "Deputy Project Engr.",
+    "company": "Theme Engineers Ltd",
+    "location": "Dhaka (DOHS Baridhara)",
+    "salary_range": "Tk. 45000 - 50000 (Monthly)",
+    "deadline": "May 9, 2026",
+    "final_score": 61.05,
+    "seniority": {
+      "candidate": 2,
+      "job": 2,
+      "penalty": 1.0
+    },
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 25.5,
+      "tfidf_keyword": 50.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1476480",
+    "job_title": "আবাসিক মেডিকেল অফিসার",
+    "company": "PATWARY GENERAL HOSPITAL",
+    "location": "Natore, Natore (Baraigram)",
+    "salary_range": "Negotiable",
+    "deadline": "May 12, 2026",
+    "final_score": 60.95,
+    "seniority": {
+      "candidate": 2,
+      "job": 2,
+      "penalty": 1.0
+    },
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 24.5,
+      "tfidf_keyword": 50.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1473799",
+    "job_title": "সহকারী শিক্ষক গণিত",
+    "company": "রফিউদ্দিন মেমোরিয়াল একাডেমী",
+    "location": "Munshiganj",
+    "salary_range": "Tk. 15000 - 16000 (Monthly)",
+    "deadline": "May 4, 2026",
+    "final_score": 60.8,
+    "seniority": {
+      "candidate": 2,
+      "job": 2,
+      "penalty": 1.0
+    },
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 23.0,
+      "tfidf_keyword": 50.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1476270",
+    "job_title": "সহকারি শিক্ষক",
+    "company": "Prisons Public School , Sylhet",
+    "location": "Sylhet",
+    "salary_range": "Negotiable",
+    "deadline": "Apr 25, 2026",
+    "final_score": 60.78,
+    "seniority": {
+      "candidate": 2,
+      "job": 2,
+      "penalty": 1.0
+    },
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 22.8,
+      "tfidf_keyword": 50.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1471999",
+    "job_title": "হিউম্যান রিসোর্স অফিসার",
+    "company": "Marsa",
+    "location": "Chattogram (Chattogram Sadar)",
+    "salary_range": "Negotiable",
+    "deadline": "Apr 27, 2026",
+    "final_score": 60.78,
+    "seniority": {
+      "candidate": 2,
+      "job": 2,
+      "penalty": 1.0
+    },
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 22.8,
+      "tfidf_keyword": 50.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1477349",
+    "job_title": "Ward Boy / Aya",
+    "company": "ANWER KHAN MODERN MEDICAL COLLEGE HOSPITAL, ANWER KHAN MODERN GROUP",
+    "location": "Dhaka",
+    "salary_range": "Negotiable",
+    "deadline": "Apr 30, 2026",
+    "final_score": 60.77,
+    "seniority": {
+      "candidate": 2,
+      "job": 2,
+      "penalty": 1.0
+    },
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 22.7,
+      "tfidf_keyword": 50.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1469916",
+    "job_title": "High-Flyer Internship Program - Summer 2026",
+    "company": "Beximco Communications Ltd.",
+    "location": "Dhaka",
+    "salary_range": "Tk. 10000 - 10000 (Monthly)",
+    "deadline": "Apr 19, 2026",
+    "final_score": 60.77,
+    "seniority": {
+      "candidate": 2,
+      "job": 2,
+      "penalty": 1.0
+    },
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 43.9,
+      "title_match": 25.0,
+      "tfidf_keyword": 0.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1472838",
+    "job_title": "সহ-ব্যবস্থাপক (মার্কেটিং এন্ড মার্চেন্ডাইজিং - সোয়েটার ডিভিশন)",
+    "company": "Best Tech engineering",
+    "location": "Anywhere in Bangladesh",
+    "salary_range": "Negotiable",
+    "deadline": "May 1, 2026",
+    "final_score": 60.66,
+    "seniority": {
+      "candidate": 2,
+      "job": 2,
+      "penalty": 1.0
+    },
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 21.6,
+      "tfidf_keyword": 50.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1477192",
+    "job_title": "Immediate Requirement - PRO (Front Desk)",
+    "company": "Vibes Beauty and Wellness (Bangladesh) Private Limited.",
+    "location": "Dhaka (Gulshan, Uttara)",
+    "salary_range": "Tk. 18000 - 25000 (Monthly)",
+    "deadline": "May 12, 2026",
+    "final_score": 60.64,
+    "seniority": {
+      "candidate": 2,
+      "job": 2,
+      "penalty": 1.0
+    },
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 100.0,
+      "experience_match": 100.0,
+      "semantic_match": 26.7,
+      "title_match": 16.4,
+      "tfidf_keyword": 40.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1476493",
+    "job_title": "আইইএলটিস ট্রেইনার",
+    "company": "Scholar Hub (Satkhira)",
+    "location": "Satkhira, Satkhira (Satkhira Sadar)",
+    "salary_range": "Tk. 20000 (Monthly)",
+    "deadline": "Apr 30, 2026",
+    "final_score": 60.59,
+    "seniority": {
+      "candidate": 2,
+      "job": 2,
+      "penalty": 1.0
+    },
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 20.9,
+      "tfidf_keyword": 50.0,
+      "skill_source_bonus": 50.0
+    }
+  },
+  {
+    "job_id": "1474830",
+    "job_title": "সহ-ব্যবস্থাপক মার্চেন্ডাইজার এন্ড মার্কেটিং (সোয়েটার ডিভিশন)",
+    "company": "Best Tech engineering",
+    "location": "Dhaka",
+    "salary_range": "Negotiable",
+    "deadline": "May 7, 2026",
+    "final_score": 60.55,
+    "seniority": {
+      "candidate": 2,
+      "job": 2,
+      "penalty": 1.0
+    },
+    "breakdown": {
+      "skill_match": 50.0,
+      "education_match": 80.0,
+      "experience_match": 100.0,
+      "semantic_match": 50.0,
+      "title_match": 20.5,
+      "tfidf_keyword": 50.0,
+      "skill_source_bonus": 50.0
+    }
+  }
+]

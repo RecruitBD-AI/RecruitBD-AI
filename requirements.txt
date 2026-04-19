@@ -1,0 +1,8 @@
+pdfminer.six 
+python-docx
+pdfplumber
+ollama
+docx
+beautifulsoup4
+tqdm
+sentence-transformers

@@ -11,12 +11,16 @@ Run build_index.py ONCE first, then use this for every CV.
 command: python cv_matcher5.py --cv cv-jsons/Raiyen_Zayed_Rakin_CV.json --index csv-encoder/job_index --top 10 --output matches.json
 """
 
+import os
 import re
 import json
 import argparse
 import numpy as np
 import warnings
 warnings.filterwarnings("ignore")
+
+os.environ["TRANSFORMERS_OFFLINE"] = "1"
+os.environ["HF_HUB_OFFLINE"] = "1"
 
 from sentence_transformers import SentenceTransformer, util
 
