@@ -2,7 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
 
-./cv-matcher/cv-jsons
+./cv-matcher/cv-jsons/
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
