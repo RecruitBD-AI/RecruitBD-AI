@@ -45,7 +45,7 @@ const PROCESS_STEPS: ProcessStep[] = [
 function StepCard({ item, index }: { item: ProcessStep; index: number }) {
   return (
     <Card className="flex flex-row items-start gap-3.5 px-4 py-4.5">
-      <div className={`min-w-6 pt-0.5 font-mono text-xs font-medium ${item.color}`}>
+      <div className={`min-w-6 pt-0.5 text-xl font-medium ${item.color}`}>
         {String(index + 1).padStart(2, "0")}
       </div>
       <div>

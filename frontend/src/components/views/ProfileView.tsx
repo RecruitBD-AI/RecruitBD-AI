@@ -89,6 +89,15 @@ export function ProfileView({ cv, state, setState, onMatch, onBack }: ProfileVie
         </div>
       </div>
 
+      {cv.summary !== "" && (
+        <Card className="mb-4 gap-2 p-5">
+          <div className="text-muted-foreground text-[11px] font-medium tracking-widest uppercase">
+            Summary
+          </div>
+          <div className="text-sm font-medium">{cv.summary}</div>
+        </Card>
+      )}
+
       <div className="grid grid-cols-2 gap-4">
         {/* Skills */}
         <Card className="p-5">
