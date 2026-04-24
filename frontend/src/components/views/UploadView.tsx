@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import type { AppState } from "@/types";
-import { ArrowRightIcon, FileTextIcon, UploadIcon, XIcon } from "lucide-react";
+import { ArrowRightIcon, FileTextIcon, SparklesIcon, UploadIcon, XIcon } from "lucide-react";
 import type React from "react";
 import { useCallback, useRef, useState } from "react";
 
@@ -96,6 +96,7 @@ export function UploadView({ state, setState, onParse, onDemo }: UploadViewProps
       <div className="mb-14">
         <div className="mb-4 flex items-center gap-2.5">
           <Badge variant="outline" className="bg-primary/15 text-primary tracking-wider">
+            <SparklesIcon />
             New
           </Badge>
           <span className="text-muted-foreground text-[13px]">

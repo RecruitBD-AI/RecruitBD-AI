@@ -16,15 +16,19 @@ import { cn } from "@/lib/utils";
 import type { AppState, JobMatch } from "@/types";
 import {
   ArrowLeftIcon,
+  BriefcaseIcon,
   CalendarIcon,
   ChevronDownIcon,
   ChevronUpIcon,
   DollarSignIcon,
   ExternalLinkIcon,
   FrownIcon,
+  ListIcon,
   MapPinIcon,
   MinusIcon,
   RefreshCwIcon,
+  SparklesIcon,
+  TrendingUpIcon,
 } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
@@ -82,6 +86,7 @@ function JobCard({ job, rank }: { job: JobMatch; rank: number }) {
               {job.job_title || "Untitled role"}
               {rank === 1 && (
                 <Badge variant="outline" className="bg-primary/15 text-primary ml-2">
+                  <SparklesIcon />
                   Top Match
                 </Badge>
               )}
@@ -228,16 +233,24 @@ export function ResultsView({ state, setState, onBack, onRestart }: ResultsViewP
       {/* Stat Cards */}
       <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
-          { label: "Jobs scanned", val: matches.length.toLocaleString(), accent: false },
-          { label: "Top match", val: `${topScore}%`, accent: true },
-          { label: "Average score", val: `${avgScore}%`, accent: false },
-          { label: "Showing", val: String(filtered.length), accent: false },
-        ].map(({ label, val, accent }) => (
-          <Card key={label} className="gap-1 px-4 py-4">
-            <div className="text-muted-foreground mb-1.5 text-[11px] tracking-wider uppercase">
-              {label}
+          {
+            label: "Jobs scanned",
+            val: matches.length.toLocaleString(),
+            accent: false,
+            icon: ListIcon,
+          },
+          { label: "Top match", val: `${topScore}%`, accent: true, icon: SparklesIcon },
+          { label: "Average score", val: `${avgScore}%`, accent: false, icon: TrendingUpIcon },
+          { label: "Showing", val: String(filtered.length), accent: false, icon: BriefcaseIcon },
+        ].map(({ label, val, accent, icon: Icon }) => (
+          <Card key={label} className="flex flex-row items-center justify-between gap-1 px-4 py-4">
+            <div>
+              <div className="text-muted-foreground mb-1.5 text-[11px] tracking-wider uppercase">
+                {label}
+              </div>
+              <h2 className={cn("text-2xl font-semibold", accent ? "text-primary" : "")}>{val}</h2>
             </div>
-            <h2 className={cn("text-2xl font-semibold", accent ? "text-primary" : "")}>{val}</h2>
+            <Icon className="text-muted-foreground" />
           </Card>
         ))}
       </div>
