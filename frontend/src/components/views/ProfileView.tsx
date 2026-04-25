@@ -190,6 +190,7 @@ export function ProfileView({ cv, state, setState, onMatch, onBack }: ProfileVie
               type="number"
               value={state.topN}
               onChange={(e) => setState((s) => ({ ...s, topN: parseInt(e.target.value) || 10 }))}
+              onKeyDown={(e) => e.key === "Enter" && onMatch()}
               className="mb-2 max-w-25"
             />
             <div className="text-muted-foreground text-xs leading-relaxed">

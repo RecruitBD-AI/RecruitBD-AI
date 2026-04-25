@@ -40,24 +40,209 @@ interface ResultsViewProps {
   onRestart: () => void;
 }
 
-function BreakdownBar({ label, value }: { label: string; value: number }) {
-  return (
-    <div>
-      {/* Label Row */}
-      <div className="mb-1 flex items-baseline justify-between">
-        <span className="text-muted-foreground text-[11px] tracking-wider uppercase">{label}</span>
-        <span className="text-xs font-medium">{Math.round(value)}%</span>
-      </div>
+const sortItems = [
+  { label: "Match score", value: "score" },
+  { label: "Skill match", value: "skill" },
+  { label: "Experience", value: "exp" },
+  { label: "Education", value: "edu" },
+];
 
-      {/* Bar */}
-      <div className="bg-border h-1 overflow-hidden rounded">
-        <div
-          className={cn(
-            "bg-primary h-full rounded transition-all duration-500 ease-out",
-            value >= 70 ? "bg-primary" : value >= 50 ? "bg-chart-4/80" : "bg-destructive",
-          )}
-          style={{ width: `${value}%` }}
-        />
+function sortMatches(matches: JobMatch[], sortBy: AppState["sortBy"]): JobMatch[] {
+  const copy = [...matches];
+  if (sortBy === "score") copy.sort((a, b) => b.final_score - a.final_score);
+  else if (sortBy === "skill")
+    copy.sort((a, b) => (b.breakdown?.skill_match ?? 0) - (a.breakdown?.skill_match ?? 0));
+  else if (sortBy === "exp")
+    copy.sort(
+      (a, b) => (b.breakdown?.experience_match ?? 0) - (a.breakdown?.experience_match ?? 0),
+    );
+  else if (sortBy === "edu")
+    copy.sort((a, b) => (b.breakdown?.education_match ?? 0) - (a.breakdown?.education_match ?? 0));
+  return copy;
+}
+
+export function ResultsView({ state, setState, onBack, onRestart }: ResultsViewProps) {
+  const { cvData, matches, minScore, sortBy } = state;
+  const name = cvData?.name || "Candidate";
+
+  const sorted = sortMatches(matches, sortBy);
+  const filtered = sorted.filter((j) => j.final_score >= minScore);
+
+  const avgScore = sorted.length
+    ? Math.round(sorted.reduce((a, b) => a + b.final_score, 0) / sorted.length)
+    : 0;
+  const topScore = sorted.length ? Math.round(sorted[0].final_score) : 0;
+
+  return (
+    <div className="animate-fade-in-up">
+      {/* Header */}
+      <Header name={name} onBack={onBack} onRestart={onRestart} />
+
+      {/* Stat Cards */}
+      <StatCards matches={matches} topScore={topScore} avgScore={avgScore} filtered={filtered} />
+
+      {/* Controls */}
+      <Controls
+        minScore={minScore}
+        setState={setState}
+        sortBy={sortBy}
+        filtered={filtered}
+        matches={matches}
+      />
+
+      {/* Job Cards */}
+      {filtered.length === 0 ? (
+        <Card className="flex flex-col items-center gap-2 p-12">
+          <FrownIcon size={48} className="text-chart-4" />
+          <div className="mt-4 text-[16px] font-medium">No results above {minScore}%</div>
+          <div className="text-muted-foreground text-sm">
+            Lower the minimum score to see more matches.
+          </div>
+        </Card>
+      ) : (
+        <div key={sortBy} className="flex flex-col gap-3.5">
+          {filtered.map((job, idx) => (
+            <JobCard key={job.job_id ?? idx} job={job} rank={idx + 1} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Header({
+  name,
+  onBack,
+  onRestart,
+}: {
+  name: string;
+  onBack: () => void;
+  onRestart: () => void;
+}) {
+  return (
+    <div className="mb-6 flex flex-wrap justify-between">
+      <div>
+        <div className="text-muted-foreground mb-1 text-sm">Result for</div>
+        <h2 className="font-serif text-2xl leading-relaxed font-semibold tracking-wider">{name}</h2>
+      </div>
+      <div className="flex items-center gap-1">
+        <Button variant="outline" size="sm" onClick={onBack}>
+          <ArrowLeftIcon /> Back
+        </Button>
+        <Button variant="outline" size="sm" onClick={onRestart}>
+          <RefreshCwIcon /> New CV
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function StatCards({
+  matches,
+  topScore,
+  avgScore,
+  filtered,
+}: {
+  matches: JobMatch[];
+  topScore: number;
+  avgScore: number;
+  filtered: JobMatch[];
+}) {
+  const statItems = [
+    {
+      label: "Jobs scanned",
+      val: matches.length.toLocaleString(),
+      accent: false,
+      icon: ListIcon,
+    },
+    { label: "Top match", val: `${topScore}%`, accent: true, icon: SparklesIcon },
+    { label: "Average score", val: `${avgScore}%`, accent: false, icon: TrendingUpIcon },
+    { label: "Showing", val: String(filtered.length), accent: false, icon: BriefcaseIcon },
+  ];
+
+  return (
+    <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+      {statItems.map(({ label, val, accent, icon: Icon }) => (
+        <Card key={label} className="flex flex-row items-center justify-between gap-1 px-4 py-4">
+          <div>
+            <div className="text-muted-foreground mb-1.5 text-[11px] tracking-wider uppercase">
+              {label}
+            </div>
+            <h2 className={cn("text-2xl font-semibold", accent ? "text-primary" : "")}>{val}</h2>
+          </div>
+          <Icon className="text-muted-foreground" />
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+function Controls({
+  minScore,
+  setState,
+  sortBy,
+  filtered,
+  matches,
+}: {
+  minScore: number;
+  setState: React.Dispatch<React.SetStateAction<AppState>>;
+  sortBy: string;
+  filtered: JobMatch[];
+  matches: JobMatch[];
+}) {
+  return (
+    <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+      <div className="flex gap-2">
+        <div>
+          <div className="text-muted-foreground mb-1.5 text-[11px] tracking-wider uppercase">
+            Min Score
+          </div>
+          <Input
+            type="number"
+            value={minScore}
+            min="0"
+            max="100"
+            onChange={(e) =>
+              setState((s) => ({
+                ...s,
+                minScore: parseInt(e.target.value) || 0,
+              }))
+            }
+            className="w-22"
+          />
+        </div>
+        <div>
+          <div className="text-muted-foreground mb-1.5 text-[11px] tracking-wider uppercase">
+            Sort By
+          </div>
+          <Select
+            items={sortItems}
+            value={sortBy}
+            onValueChange={(v) =>
+              setState((s) => ({
+                ...s,
+                sortBy: v as AppState["sortBy"],
+              }))
+            }
+          >
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Sort by</SelectLabel>
+                {sortItems.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      <div className="text-muted-foreground mb-1.5 text-[11px] tracking-widest uppercase">
+        {filtered.length} / {matches.length} results
       </div>
     </div>
   );
@@ -69,13 +254,17 @@ function JobCard({ job, rank }: { job: JobMatch; rank: number }) {
 
   const score = Math.round(job.final_score);
 
+  const handleCardClick = () => {
+    setExpanded((prev) => !prev);
+  };
+
   return (
     <Card
       className={cn(
-        "p-0",
-        expanded ? "border-primary/20 shadow-primary border shadow-md/30 transition-all" : "",
+        "hover:border-primary/20 hover:shadow-primary border border-transparent p-0 transition-all duration-200 hover:shadow-md/30",
+        expanded ? "border-primary/20 shadow-primary shadow-md/30 transition-all" : "",
       )}
-      onClick={() => setExpanded((v) => !v)}
+      onClick={handleCardClick}
     >
       <CardContent className="p-0">
         {/* Header Row */}
@@ -177,155 +366,25 @@ function JobCard({ job, rank }: { job: JobMatch; rank: number }) {
   );
 }
 
-function sortMatches(matches: JobMatch[], sortBy: AppState["sortBy"]): JobMatch[] {
-  const copy = [...matches];
-  if (sortBy === "score") copy.sort((a, b) => b.final_score - a.final_score);
-  else if (sortBy === "skill")
-    copy.sort((a, b) => (b.breakdown?.skill_match ?? 0) - (a.breakdown?.skill_match ?? 0));
-  else if (sortBy === "exp")
-    copy.sort(
-      (a, b) => (b.breakdown?.experience_match ?? 0) - (a.breakdown?.experience_match ?? 0),
-    );
-  else if (sortBy === "edu")
-    copy.sort((a, b) => (b.breakdown?.education_match ?? 0) - (a.breakdown?.education_match ?? 0));
-  return copy;
-}
-
-const sortItems = [
-  { label: "Match score", value: "score" },
-  { label: "Skill match", value: "skill" },
-  { label: "Experience", value: "exp" },
-  { label: "Education", value: "edu" },
-];
-
-export function ResultsView({ state, setState, onBack, onRestart }: ResultsViewProps) {
-  const { cvData, matches, minScore, sortBy } = state;
-  const name = cvData?.name || "Candidate";
-
-  const sorted = sortMatches(matches, sortBy);
-  const filtered = sorted.filter((j) => j.final_score >= minScore);
-
-  const avgScore = sorted.length
-    ? Math.round(sorted.reduce((a, b) => a + b.final_score, 0) / sorted.length)
-    : 0;
-  const topScore = sorted.length ? Math.round(sorted[0].final_score) : 0;
-
+function BreakdownBar({ label, value }: { label: string; value: number }) {
   return (
-    <div className="animate-fade-in-up">
-      {/* Header */}
-      <div className="mb-6 flex flex-wrap justify-between">
-        <div>
-          <div className="text-muted-foreground mb-1 text-sm">Result for</div>
-          <h2 className="font-serif text-2xl leading-relaxed font-semibold tracking-wider">
-            {name}
-          </h2>
-        </div>
-        <div className="flex items-center gap-1">
-          <Button variant="outline" size="sm" onClick={onBack}>
-            <ArrowLeftIcon /> Back
-          </Button>
-          <Button variant="outline" size="sm" onClick={onRestart}>
-            <RefreshCwIcon /> New CV
-          </Button>
-        </div>
+    <div>
+      {/* Label Row */}
+      <div className="mb-1 flex items-baseline justify-between">
+        <span className="text-muted-foreground text-[11px] tracking-wider uppercase">{label}</span>
+        <span className="text-xs font-medium">{Math.round(value)}%</span>
       </div>
 
-      {/* Stat Cards */}
-      <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {[
-          {
-            label: "Jobs scanned",
-            val: matches.length.toLocaleString(),
-            accent: false,
-            icon: ListIcon,
-          },
-          { label: "Top match", val: `${topScore}%`, accent: true, icon: SparklesIcon },
-          { label: "Average score", val: `${avgScore}%`, accent: false, icon: TrendingUpIcon },
-          { label: "Showing", val: String(filtered.length), accent: false, icon: BriefcaseIcon },
-        ].map(({ label, val, accent, icon: Icon }) => (
-          <Card key={label} className="flex flex-row items-center justify-between gap-1 px-4 py-4">
-            <div>
-              <div className="text-muted-foreground mb-1.5 text-[11px] tracking-wider uppercase">
-                {label}
-              </div>
-              <h2 className={cn("text-2xl font-semibold", accent ? "text-primary" : "")}>{val}</h2>
-            </div>
-            <Icon className="text-muted-foreground" />
-          </Card>
-        ))}
+      {/* Bar */}
+      <div className="bg-border h-1 overflow-hidden rounded">
+        <div
+          className={cn(
+            "bg-primary h-full rounded transition-all duration-500 ease-out",
+            value >= 70 ? "bg-primary" : value >= 50 ? "bg-chart-4/80" : "bg-destructive",
+          )}
+          style={{ width: `${value}%` }}
+        />
       </div>
-
-      {/* Controls */}
-      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex gap-2">
-          <div>
-            <div className="text-muted-foreground mb-1.5 text-[11px] tracking-wider uppercase">
-              Min Score
-            </div>
-            <Input
-              type="number"
-              value={minScore}
-              min="0"
-              max="100"
-              onChange={(e) =>
-                setState((s) => ({
-                  ...s,
-                  minScore: parseInt(e.target.value) || 0,
-                }))
-              }
-              className="w-22"
-            />
-          </div>
-          <div>
-            <div className="text-muted-foreground mb-1.5 text-[11px] tracking-wider uppercase">
-              Sort By
-            </div>
-            <Select
-              items={sortItems}
-              value={sortBy}
-              onValueChange={(v) =>
-                setState((s) => ({
-                  ...s,
-                  sortBy: v as AppState["sortBy"],
-                }))
-              }
-            >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Sort by</SelectLabel>
-                  {sortItems.map((item) => (
-                    <SelectItem key={item.value} value={item.value}>
-                      {item.label}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-        <div className="text-muted-foreground mb-1.5 text-[11px] tracking-widest uppercase">
-          {filtered.length} / {matches.length} results
-        </div>
-      </div>
-
-      {filtered.length === 0 ? (
-        <Card className="flex flex-col items-center gap-2 p-12">
-          <FrownIcon size={48} className="text-chart-4" />
-          <div className="mt-4 text-[16px] font-medium">No results above {minScore}%</div>
-          <div className="text-muted-foreground text-sm">
-            Lower the minimum score to see more matches.
-          </div>
-        </Card>
-      ) : (
-        <div key={sortBy} className="flex flex-col gap-3.5">
-          {filtered.map((job, idx) => (
-            <JobCard key={job.job_id ?? idx} job={job} rank={idx + 1} />
-          ))}
-        </div>
-      )}
     </div>
   );
 }

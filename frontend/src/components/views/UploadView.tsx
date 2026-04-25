@@ -1,8 +1,17 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import type { AppState } from "@/types";
-import { ArrowRightIcon, FileTextIcon, SparklesIcon, UploadIcon, XIcon } from "lucide-react";
+import {
+  ArrowRightIcon,
+  CheckLineIcon,
+  FileTextIcon,
+  SparklesIcon,
+  UploadIcon,
+  XIcon,
+  ZapIcon,
+} from "lucide-react";
 import type React from "react";
 import { useCallback, useRef, useState } from "react";
 
@@ -44,7 +53,7 @@ const PROCESS_STEPS: ProcessStep[] = [
 
 function StepCard({ item, index }: { item: ProcessStep; index: number }) {
   return (
-    <Card className="flex flex-row items-start gap-3.5 px-4 py-4.5">
+    <Card className="flex flex-row items-start gap-3.5 px-4 py-5">
       <div className={`min-w-6 pt-0.5 text-xl font-medium ${item.color}`}>
         {String(index + 1).padStart(2, "0")}
       </div>
@@ -114,18 +123,17 @@ export function UploadView({ state, setState, onParse, onDemo }: UploadViewProps
         </p>
       </div>
 
-      <div className="grid grid-cols-2 items-start gap-5">
+      <div className="grid gap-5 lg:grid-cols-5">
         {/* Upload Card */}
-        <Card className="gap-1 overflow-hidden py-2">
+        <Card className="gap-1 overflow-hidden py-2 lg:col-span-3">
           <CardHeader className="border-border border-b pt-4">
             <p className="mb-0.5 text-sm font-bold">Upload your CV</p>
             <span className="text-muted-foreground text-xs">PDF or DOCX, max 10MB</span>
-            {/* <Separator /> */}
           </CardHeader>
 
-          <CardContent className="px-6 py-4">
+          <CardContent className="flex flex-1 flex-col px-6 py-4">
             {state.error && (
-              <div className="text-destructive bg-destructive/10 mb-4 rounded-md border px-2.5 py-3">
+              <div className="text-destructive bg-destructive/10 mb-3 rounded-md border px-2.5 py-3">
                 {state.error}
               </div>
             )}
@@ -139,9 +147,11 @@ export function UploadView({ state, setState, onParse, onDemo }: UploadViewProps
               onDragLeave={() => setDragging(false)}
               onDrop={onDrop}
               onClick={() => inputRef.current?.click()}
-              className={`hover:border-primary hover:bg-primary/5 mb-4 rounded-md border border-dashed px-9 py-6 text-center transition-all ${
-                dragging ? "border-primary bg-primary/5" : "border-border bg-muted cursor-pointer"
-              } `}
+              className={cn(
+                "hover:border-primary hover:bg-primary/5 relative mb-3 flex flex-1 flex-col items-center justify-center gap-1 rounded-md border-2 border-dashed py-4 transition-all duration-200",
+                dragging ? "border-primary bg-primary/5" : "border-border bg-muted cursor-pointer",
+                canParse ? "bg-primary/5" : "",
+              )}
             >
               <input
                 ref={inputRef}
@@ -150,10 +160,10 @@ export function UploadView({ state, setState, onParse, onDemo }: UploadViewProps
                 className="hidden"
                 onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])}
               />
-              <div className="border-border text-primary bg-background mx-auto mb-3.5 flex h-10 w-10 items-center justify-center rounded-sm border">
-                <UploadIcon />
+              <div className="text-primary mx-auto mb-2 flex items-center justify-center rounded-md bg-transparent">
+                {canParse ? <CheckLineIcon /> : <UploadIcon />}
               </div>
-              <div className="mb-1 text-sm font-medium">
+              <div className="mb-0.5 text-sm font-medium">
                 {state.file ? "File ready" : "Drop your CV here"}
               </div>
               <div className="text-muted-foreground text-xs">
@@ -163,7 +173,7 @@ export function UploadView({ state, setState, onParse, onDemo }: UploadViewProps
 
             {/* Selected File */}
             {state.file && (
-              <div className="bg-primary/5 border-primary/10 mb-4 flex items-center gap-3 rounded-sm border px-3 py-3.5">
+              <div className="bg-primary/5 border-primary/10 mb-4 flex items-center gap-3 rounded-md border px-3 py-3">
                 <div className="text-primary">
                   <FileTextIcon />
                 </div>
@@ -190,6 +200,7 @@ export function UploadView({ state, setState, onParse, onDemo }: UploadViewProps
                 <ArrowRightIcon /> Analyze CV
               </Button>
               <Button variant="outline" disabled={canParse} onClick={onDemo}>
+                <ZapIcon />
                 Demo
               </Button>
             </div>
@@ -197,7 +208,7 @@ export function UploadView({ state, setState, onParse, onDemo }: UploadViewProps
         </Card>
 
         {/* How it works */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 lg:col-span-2">
           {PROCESS_STEPS.map((item, idx) => (
             <StepCard key={idx} item={item} index={idx} />
           ))}
