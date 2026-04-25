@@ -133,7 +133,7 @@ export function UploadView({ state, setState, onParse, onDemo }: UploadViewProps
 
           <CardContent className="flex flex-1 flex-col px-6 py-4">
             {state.error && (
-              <div className="text-destructive bg-destructive/10 mb-3 rounded-md border px-2.5 py-3">
+              <div className="text-destructive bg-destructive/10 mb-3 rounded-md border p-3">
                 {state.error}
               </div>
             )}
@@ -148,7 +148,7 @@ export function UploadView({ state, setState, onParse, onDemo }: UploadViewProps
               onDrop={onDrop}
               onClick={() => inputRef.current?.click()}
               className={cn(
-                "hover:border-primary hover:bg-primary/5 relative mb-3 flex flex-1 flex-col items-center justify-center gap-1 rounded-md border-2 border-dashed py-4 transition-all duration-200",
+                "hover:border-primary hover:bg-primary/5 relative mb-3 flex flex-1 flex-col items-center justify-center gap-1 rounded-md border-2 border-dashed py-8 transition-all duration-200",
                 dragging ? "border-primary bg-primary/5" : "border-border bg-muted cursor-pointer",
                 canParse ? "bg-primary/5" : "",
               )}
@@ -173,7 +173,7 @@ export function UploadView({ state, setState, onParse, onDemo }: UploadViewProps
 
             {/* Selected File */}
             {state.file && (
-              <div className="bg-primary/5 border-primary/10 mb-4 flex items-center gap-3 rounded-md border px-3 py-3">
+              <div className="bg-primary/5 border-primary/10 mb-4 flex items-center gap-3 rounded-md border p-3">
                 <div className="text-primary">
                   <FileTextIcon />
                 </div>
