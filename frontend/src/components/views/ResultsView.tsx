@@ -1,3 +1,4 @@
+import { TakaSignIcon } from "@/components/icons/taka";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -20,7 +21,6 @@ import {
   CalendarIcon,
   ChevronDownIcon,
   ChevronUpIcon,
-  DollarSignIcon,
   ExternalLinkIcon,
   FrownIcon,
   ListIcon,
@@ -286,7 +286,7 @@ function JobCard({ job, rank }: { job: JobMatch; rank: number }) {
               )}
               {job.salary_range && (
                 <Badge variant="outline" className="bg-chart-3/15 text-chart-3">
-                  <DollarSignIcon />
+                  <TakaSignIcon />
                   {job.salary_range}
                 </Badge>
               )}
