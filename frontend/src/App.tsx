@@ -103,7 +103,7 @@ export function App() {
         : await matchJobs(cvData, topN);
       clearTimer();
       setAnimStep(MATCH_STEPS);
-      setState((s) => ({ ...s, matches, view: "results", expandedJobId: null, error: null }));
+      setState((s) => ({ ...s, matches, view: "results", error: null }));
     } catch (err) {
       clearTimer();
       setState((s) => ({

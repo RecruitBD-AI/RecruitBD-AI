@@ -180,30 +180,51 @@ export function ProfileView({ cv, state, setState, onMatch, onBack }: ProfileVie
         </Card>
 
         {/* Match Settings */}
-        <Card className="p-5">
-          <div className="text-muted-foreground flex flex-row text-[11px] font-medium tracking-widest uppercase">
-            Match Settings
-          </div>
-          <div>
-            <div className="mb-2 text-sm">Top results to return</div>
-            <Input
-              type="number"
-              value={state.topN}
-              onChange={(e) => setState((s) => ({ ...s, topN: parseInt(e.target.value) || 10 }))}
-              onKeyDown={(e) => e.key === "Enter" && onMatch()}
-              className="mb-2 max-w-25"
-            />
-            <div className="text-muted-foreground text-xs leading-relaxed">
-              Scores jobs across skill match, education fit, experience level, semantic similarity,
-              title alignment, and seniority penalty.
-            </div>
-            <Separator className="my-4" />
-            <Button onClick={onMatch} className="w-full">
-              <BriefcaseIcon /> Run matching <ArrowRightIcon />
-            </Button>
-          </div>
-        </Card>
+        <MatchSettings state={state} setState={setState} onMatch={onMatch} />
       </div>
     </div>
+  );
+}
+
+function MatchSettings({
+  state,
+  setState,
+  onMatch,
+}: {
+  state: AppState;
+  setState: React.Dispatch<React.SetStateAction<AppState>>;
+  onMatch: () => void;
+}) {
+  const handleTopNChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value);
+    if (!isNaN(value) && value > 0) {
+      setState((s) => ({ ...s, topN: value }));
+    }
+  };
+
+  return (
+    <Card className="p-5">
+      <div className="text-muted-foreground flex flex-row text-[11px] font-medium tracking-widest uppercase">
+        Match Settings
+      </div>
+      <div>
+        <div className="mb-2 text-sm">Top results to return</div>
+        <Input
+          type="number"
+          value={state.topN}
+          onChange={handleTopNChange}
+          onKeyDown={(e) => e.key === "Enter" && onMatch()}
+          className="mb-2 max-w-25"
+        />
+        <div className="text-muted-foreground text-xs leading-relaxed">
+          Scores jobs across skill match, education fit, experience level, semantic similarity,
+          title alignment, and seniority penalty.
+        </div>
+        <Separator className="my-4" />
+        <Button onClick={onMatch} className="w-full">
+          <BriefcaseIcon /> Run matching <ArrowRightIcon />
+        </Button>
+      </div>
+    </Card>
   );
 }

@@ -190,6 +190,21 @@ function Controls({
   filtered: JobMatch[];
   matches: JobMatch[];
 }) {
+  const handleMinScoreChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value);
+    if (!isNaN(value) && value >= 0 && value <= 100) {
+      setState((s) => ({ ...s, minScore: value }));
+    }
+  };
+
+  const handleSortByChange = (value: string | null) => {
+    if (!value) return;
+    setState((s) => ({
+      ...s,
+      sortBy: value as AppState["sortBy"],
+    }));
+  };
+
   return (
     <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
       <div className="flex gap-2">
@@ -197,34 +212,13 @@ function Controls({
           <div className="text-muted-foreground mb-1.5 text-[11px] tracking-wider uppercase">
             Min Score
           </div>
-          <Input
-            type="number"
-            value={minScore}
-            min="0"
-            max="100"
-            onChange={(e) =>
-              setState((s) => ({
-                ...s,
-                minScore: parseInt(e.target.value) || 0,
-              }))
-            }
-            className="w-22"
-          />
+          <Input type="number" value={minScore} onChange={handleMinScoreChange} className="w-22" />
         </div>
         <div>
           <div className="text-muted-foreground mb-1.5 text-[11px] tracking-wider uppercase">
             Sort By
           </div>
-          <Select
-            items={sortItems}
-            value={sortBy}
-            onValueChange={(v) =>
-              setState((s) => ({
-                ...s,
-                sortBy: v as AppState["sortBy"],
-              }))
-            }
-          >
+          <Select items={sortItems} value={sortBy} onValueChange={handleSortByChange}>
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
