@@ -22,6 +22,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sentence_transformers import SentenceTransformer
 
 from config import INDEX_DIR
+from jobs.build_index import main as build_index
 
 warnings.filterwarnings("ignore")
 
@@ -36,6 +37,10 @@ _job_metadata: list[dict] | None = None
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global _model, _job_embeddings, _job_metadata
+
+    if not INDEX_DIR.exists():
+        print("⚙️  Index not found. Building…")
+        build_index()
 
     print("⚙️  Loading SBERT model (all-MiniLM-L6-v2)…")
     _model = SentenceTransformer("all-MiniLM-L6-v2")
