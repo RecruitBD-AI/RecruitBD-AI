@@ -21,14 +21,12 @@ from fastapi import FastAPI, File, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from sentence_transformers import SentenceTransformer
 
-from pathlib import Path
+from config import INDEX_DIR
 
 warnings.filterwarnings("ignore")
 
-BASE_DIR = next(p for p in Path(__file__).parents if (p / "pyproject.toml").exists())
-INDEX_PREFIX = os.path.join(BASE_DIR, "matcher", "csv_encoder", "job_index")
-EMB_PATH = f"{INDEX_PREFIX}_embeddings.npy"
-META_PATH = f"{INDEX_PREFIX}_metadata.json"
+EMB_PATH = INDEX_DIR / "job_index_embeddings.npy"
+META_PATH = INDEX_DIR / "job_index_metadata.json"
 
 _model: SentenceTransformer | None = None
 _job_embeddings: np.ndarray | None = None
@@ -42,7 +40,7 @@ async def lifespan(app: FastAPI):
     print("⚙️  Loading SBERT model (all-MiniLM-L6-v2)…")
     _model = SentenceTransformer("all-MiniLM-L6-v2")
 
-    print(f"⚙️  Loading job index from {INDEX_PREFIX}…")
+    print(f"⚙️  Loading job index from {INDEX_DIR}…")
     _job_embeddings = np.load(EMB_PATH)
     with open(META_PATH, "r", encoding="utf-8") as f:
         _job_metadata = json.load(f)

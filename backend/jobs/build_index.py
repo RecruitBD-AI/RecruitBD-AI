@@ -9,13 +9,17 @@ Usage:
     python build_index.py --jobs jobs.csv --output job_index
 """
 
-import argparse
+import asyncio
 import csv
 import json
 import re
+from pathlib import Path
 
 import numpy as np
 from sentence_transformers import SentenceTransformer
+
+from config import DATA_DIR, INDEX_DIR
+from jobs.jobs import main as scrape_jobs
 
 CORE_SKILLS = {
     "python",
@@ -141,7 +145,19 @@ def build_job_text(job):
     return " ".join(p for p in parts if p.strip())
 
 
-def build_index(jobs_path: str, output_prefix: str = "job_index"):
+def main(output_prefix: str = "job_index"):
+    csv_files = list(DATA_DIR.glob("jobs_*.csv")) if DATA_DIR.exists() else []
+
+    if not csv_files:
+        print("No data found. Scraping job listings...")
+        asyncio.run(scrape_jobs())
+        csv_files = list(DATA_DIR.glob("jobs_*.csv"))
+
+    if not csv_files:
+        raise FileNotFoundError("Scraping completed but no CSV found in data/")
+
+    jobs_path = max(csv_files, key=lambda f: f.stat().st_mtime)
+
     with open(jobs_path, "r", encoding="utf-8") as f:
         jobs = list(csv.DictReader(f))
 
@@ -155,9 +171,10 @@ def build_index(jobs_path: str, output_prefix: str = "job_index"):
     texts = []
 
     for job in jobs:
-        job_desc = job.get("job_description", "")
-        job_edu = job.get("education_requirements", "")
         job_title = job.get("job_title", "")
+        job_desc = job.get("job_description", "")
+        job_add = job.get("additional_requirements", "")
+        job_edu = job.get("education_requirements", "")
 
         meta = {
             "job_id": job.get("job_id"),
@@ -171,7 +188,7 @@ def build_index(jobs_path: str, output_prefix: str = "job_index"):
             "job_description": job_desc[:800],
             # Pre-extracted fields
             "extracted_skills": extract_skills_from_desc(job_desc),
-            "required_years": extract_required_years(job_desc, job_edu),
+            "required_years": extract_required_years(job_desc + " " + job_add, job_edu),
             "seniority_level": detect_seniority(job_title + " " + job_desc[:200]),
         }
         metadata.append(meta)
@@ -187,9 +204,10 @@ def build_index(jobs_path: str, output_prefix: str = "job_index"):
         normalize_embeddings=True,  # pre-normalize for faster cosine sim
     )
 
-    # Save embeddings as numpy array
-    emb_path = f"{output_prefix}_embeddings.npy"
-    meta_path = f"{output_prefix}_metadata.json"
+    # Save to INDEX_DIR
+    INDEX_DIR.mkdir(exist_ok=True)
+    emb_path = INDEX_DIR / f"{output_prefix}_embeddings.npy"
+    meta_path = INDEX_DIR / f"{output_prefix}_metadata.json"
 
     np.save(emb_path, embeddings)
     with open(meta_path, "w", encoding="utf-8") as f:
@@ -202,8 +220,4 @@ def build_index(jobs_path: str, output_prefix: str = "job_index"):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Build job index")
-    parser.add_argument("--jobs", required=True, help="Jobs CSV path")
-    parser.add_argument("--output", default="job_index", help="Output prefix (default: job_index)")
-    args = parser.parse_args()
-    build_index(args.jobs, args.output)
+    main()

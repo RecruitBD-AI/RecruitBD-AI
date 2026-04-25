@@ -1,8 +1,9 @@
+from pathlib import Path
 import asyncio
 import csv
-import os
-import json
 from datetime import datetime
+
+from config import DATA_DIR
 
 import aiohttp
 from bs4 import BeautifulSoup
@@ -110,6 +111,8 @@ async def process_job(session, job_id):
 
 async def main():
     global all_fields, retry_ids
+    all_fields = set()
+    retry_ids = []
 
     conn = aiohttp.TCPConnector(limit=10)
     session = aiohttp.ClientSession(connector=conn)
@@ -143,18 +146,24 @@ async def main():
             details = await asyncio.gather(*detail_tasks)
             jobs_data.extend([detail for detail in details if detail])
 
-        for _ in tqdm(range(5), desc="Retrying failed jobs"):
-            if len(retry_ids) == 0:
+        max_retries = 5
+        for attempt in range(max_retries):
+            if not retry_ids:
                 break
-            batch_ids = retry_ids[:batch_size]
-            del retry_ids[:batch_size]
-            detail_tasks = [process_job(session, job_id) for job_id in batch_ids]
-            details = await asyncio.gather(*detail_tasks)
-            jobs_data.extend([detail for detail in details if detail])
+            current_batch = retry_ids[:]
+            retry_ids.clear()
+            detail_tasks = [process_job(session, job_id) for job_id in current_batch]
+            details = await tqdm.gather(
+                *detail_tasks,
+                desc=f"Retry {attempt + 1}/{max_retries} ({len(current_batch)} jobs)",
+            )
+            jobs_data.extend([d for d in details if d])
 
         now = datetime.now()
         timestamp = int(now.timestamp())
-        csv_file = f"data/jobs_{timestamp}.csv"
+
+        DATA_DIR.mkdir(exist_ok=True)
+        csv_file = DATA_DIR / f"jobs_{timestamp}.csv"
 
         fieldnames = sorted(all_fields)
 
@@ -164,19 +173,10 @@ async def main():
             for job in jobs_data:
                 writer.writerow(job)
 
-        json_path = f"data/jobs_{timestamp}.json"
-        data_json = json.dumps(jobs_data)
-
-        with open(json_path, mode="w", encoding="utf-8") as f:
-            f.write(data_json)
-
         print(f"Scraped {len(jobs_data)} jobs")
-        print(f"Output: {csv_file}, {json_path}")
     finally:
         await session.close()
 
 
 if __name__ == "__main__":
-    if not os.path.exists("data"):
-        os.makedirs("data")
     asyncio.run(main())
