@@ -328,7 +328,7 @@ function JobCard({ job, rank }: { job: JobMatch; rank: number }) {
               <BreakdownBar label="Skill Source" value={breakdown.skill_source} />
             </div>
 
-            {breakdown.seniority_penalty !== undefined && breakdown.seniority_penalty < 1 && (
+            {breakdown.seniority_penalty !== undefined && (
               <div className="text-muted-foreground mb-3 text-[11px]">
                 Seniority penalty: ×{breakdown.seniority_penalty}
               </div>

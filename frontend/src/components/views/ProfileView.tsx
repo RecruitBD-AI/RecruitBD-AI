@@ -141,12 +141,7 @@ export function ProfileView({ cv, state, setState, onMatch, onBack }: ProfileVie
                     <>
                       <DotIcon size={16} />
                       {e.startDate}
-                      {e.endDate && (
-                        <>
-                          <MinusIcon size={14} />
-                          {e.endDate}
-                        </>
-                      )}
+                      {e.endDate && <span>&nbsp;– {e.endDate}</span>}
                     </>
                   )}
                 </div>
