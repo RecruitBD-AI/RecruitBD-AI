@@ -1,4 +1,4 @@
-import type { CVData, JobMatch } from "@/types";
+import type { CVData, JobMatch } from "@/lib/types";
 
 export const DEMO_CV: CVData = {
   name: "Atif Chowdhury",

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import type { AppState, JobMatch } from "@/types";
+import type { AppState, JobMatch } from "@/lib/types";
 import {
   ArrowLeftIcon,
   BriefcaseIcon,

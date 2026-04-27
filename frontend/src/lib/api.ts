@@ -1,4 +1,4 @@
-import type { CVData, JobMatch } from "@/types";
+import type { CVData, JobMatch } from "@/lib/types";
 
 const API = import.meta.env.VITE_API_URL;
 

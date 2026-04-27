@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { VIEWS } from "@/types";
+import { VIEWS } from "@/lib/types";
 import { CheckIcon } from "lucide-react";
 import { memo } from "react";
 

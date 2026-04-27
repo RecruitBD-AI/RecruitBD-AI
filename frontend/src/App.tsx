@@ -6,7 +6,7 @@ import { ResultsView } from "@/components/views/ResultsView";
 import { UploadView } from "@/components/views/UploadView";
 import { matchJobs, parseCV } from "@/lib/api";
 import { DEMO_CV, DEMO_MATCHES } from "@/lib/demo";
-import { VIEWS, type AppState } from "@/types";
+import { VIEWS, type AppState } from "@/lib/types";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const INITIAL_STATE: AppState = {
@@ -39,17 +39,20 @@ export function App() {
 
   useEffect(() => () => clearTimer(), []);
 
-  const runStepAnim = useCallback((totalSteps: number) => {
-    clearTimer();
-    setAnimStep(0);
-    let step = 0;
-    timerRef.current = setInterval(() => {
-      if (step < totalSteps - 1) {
-        step++;
-        setAnimStep(step);
-      }
-    }, STEP_DELAY_MS);
-  }, []);
+  const runStepAnim = useCallback(
+    (totalSteps: number) => {
+      clearTimer();
+      setAnimStep(0);
+      let step = 0;
+      timerRef.current = setInterval(() => {
+        if (step < totalSteps - 1) {
+          step++;
+          setAnimStep(step);
+        }
+      }, STEP_DELAY_MS);
+    },
+    [clearTimer],
+  );
 
   const handleDemo = useCallback(() => {
     setState((s) => ({

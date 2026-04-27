@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import type { AppState, CVData } from "@/types";
+import type { AppState, CVData } from "@/lib/types";
 import { ArrowLeftIcon, ArrowRightIcon, BriefcaseIcon, DotIcon, MinusIcon } from "lucide-react";
 import type React from "react";
 
@@ -136,7 +136,7 @@ export function ProfileView({ cv, state, setState, onMatch, onBack }: ProfileVie
               >
                 <div className="text-sm font-medium">{e.title || <MinusIcon size={20} />}</div>
                 <div className="text-muted-foreground flex items-center text-xs">
-                  {e.company}
+                  {e.company !== "" ? e.company : "N/A"}
                   {e.startDate && (
                     <>
                       <DotIcon size={16} />
