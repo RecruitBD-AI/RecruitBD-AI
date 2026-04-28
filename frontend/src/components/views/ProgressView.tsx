@@ -13,7 +13,7 @@ const PARSE_STEPS = [
   "Analysing education history",
   "Structuring candidate profile",
   "Generating CV summary",
-];
+] as const;
 
 const MATCH_STEPS = [
   "Loading job index",
@@ -21,7 +21,7 @@ const MATCH_STEPS = [
   "Computing semantic similarity",
   "Scoring all job listings",
   "Ranking top matches",
-];
+] as const;
 
 export function ProgressView({ type, step }: ProgressViewProps) {
   const steps = type === "parse" ? PARSE_STEPS : MATCH_STEPS;

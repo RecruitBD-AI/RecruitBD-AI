@@ -1,8 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import type { AppAction } from "@/lib/reducer";
 import { cn } from "@/lib/utils";
-import type { AppState } from "@/lib/types";
 import {
   ArrowRightIcon,
   CheckLineIcon,
@@ -16,45 +16,44 @@ import type React from "react";
 import { useCallback, useRef, useState } from "react";
 
 interface UploadViewProps {
-  state: AppState;
-  setState: React.Dispatch<React.SetStateAction<AppState>>;
+  file: File | null;
+  error: string | null;
+  isDemo: boolean;
+  dispatch: React.Dispatch<AppAction>;
   onParse: () => void;
   onDemo: () => void;
 }
 
+const STEP_COLORS = ["text-chart-1", "text-chart-2", "text-chart-3", "text-chart-4"] as const;
+
 type ProcessStep = {
   title: string;
   desc: string;
-  color: string;
 };
 
 const PROCESS_STEPS: ProcessStep[] = [
   {
     title: "Parse",
     desc: "Extracts skills, experience, education and employment history using Ollama/gemma3.",
-    color: "text-chart-1",
   },
   {
     title: "Embed",
     desc: "Encodes your CV summary with Sentence-BERT and computes cosine similarity across all jobs.",
-    color: "text-chart-2",
   },
   {
     title: "Score",
     desc: "Weighted scoring across 6 dimensions: skill match, education, experience, semantics, title & seniority.",
-    color: "text-chart-3",
   },
   {
     title: "Rank",
     desc: "Returns top N matches with full score breakdowns, salary, deadlines and apply links.",
-    color: "text-chart-4",
   },
 ];
 
 function StepCard({ item, index }: { item: ProcessStep; index: number }) {
   return (
     <Card className="flex flex-row items-start gap-3.5 px-4 py-5">
-      <div className={`min-w-6 pt-0.5 text-xl font-medium ${item.color}`}>
+      <div className={cn("min-w-6 pt-0.5 text-xl font-medium", STEP_COLORS[index])}>
         {String(index + 1).padStart(2, "0")}
       </div>
       <div>
@@ -65,7 +64,7 @@ function StepCard({ item, index }: { item: ProcessStep; index: number }) {
   );
 }
 
-export function UploadView({ state, setState, onParse, onDemo }: UploadViewProps) {
+export function UploadView({ file, error, isDemo, dispatch, onParse, onDemo }: UploadViewProps) {
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -73,12 +72,12 @@ export function UploadView({ state, setState, onParse, onDemo }: UploadViewProps
     (file: File) => {
       const ext = file.name.split(".").pop()?.toLowerCase();
       if (!["pdf", "docx"].includes(ext ?? "")) {
-        setState((s) => ({ ...s, error: "Only PDF and DOCX files are supported." }));
+        dispatch({ type: "SET_UPLOAD_ERROR", payload: "Only PDF and DOCX files are supported." });
         return;
       }
-      setState((s) => ({ ...s, file, error: null, isDemo: false }));
+      dispatch({ type: "SET_FILE", payload: file });
     },
-    [setState],
+    [dispatch],
   );
 
   const onDrop = useCallback(
@@ -97,7 +96,7 @@ export function UploadView({ state, setState, onParse, onDemo }: UploadViewProps
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   };
 
-  const canParse = !!(state.file || state.isDemo);
+  const canParse = !!(file || isDemo);
 
   return (
     <div className="animate-fade-in-up">
@@ -132,9 +131,9 @@ export function UploadView({ state, setState, onParse, onDemo }: UploadViewProps
           </CardHeader>
 
           <CardContent className="flex flex-1 flex-col px-6 py-4">
-            {state.error && (
+            {error && (
               <div className="text-destructive bg-destructive/10 mb-3 rounded-md border p-3">
-                {state.error}
+                {error}
               </div>
             )}
 
@@ -164,30 +163,30 @@ export function UploadView({ state, setState, onParse, onDemo }: UploadViewProps
                 {canParse ? <CheckLineIcon /> : <UploadIcon />}
               </div>
               <div className="mb-0.5 text-sm font-medium">
-                {state.file ? "File ready" : "Drop your CV here"}
+                {file ? "File ready" : "Drop your CV here"}
               </div>
               <div className="text-muted-foreground text-xs">
-                {state.file ? state.file.name : "or click to browse"}
+                {file ? file.name : "or click to browse"}
               </div>
             </div>
 
             {/* Selected File */}
-            {state.file && (
+            {file && (
               <div className="bg-primary/5 border-primary/10 mb-4 flex items-center gap-3 rounded-md border p-3">
                 <div className="text-primary">
                   <FileTextIcon />
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="overflow-hidden text-[13px] font-medium text-ellipsis">
-                    {state.file.name}
+                    {file.name}
                   </div>
                   <div className="text-muted-foreground font-mono text-[11px]">
-                    {state.isDemo ? "128 KB (demo)" : formatBytes(state.file.size)}
+                    {isDemo ? "128 KB (demo)" : formatBytes(file.size)}
                   </div>
                 </div>
                 <button
                   className="text-muted-foreground cursor-pointer p-0.5"
-                  onClick={() => setState((s) => ({ ...s, file: null, isDemo: false }))}
+                  onClick={() => dispatch({ type: "SET_FILE", payload: null })}
                 >
                   <XIcon size={18} />
                 </button>

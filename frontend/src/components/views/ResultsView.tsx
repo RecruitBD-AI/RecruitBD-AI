@@ -13,8 +13,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import type { AppAction } from "@/lib/reducer";
+import type { AppState, CVData, JobMatch } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import type { AppState, JobMatch } from "@/lib/types";
 import {
   ArrowLeftIcon,
   BriefcaseIcon,
@@ -34,8 +35,11 @@ import type React from "react";
 import { useState } from "react";
 
 interface ResultsViewProps {
-  state: AppState;
-  setState: React.Dispatch<React.SetStateAction<AppState>>;
+  cvData: CVData | null;
+  matches: JobMatch[];
+  minScore: number;
+  sortBy: AppState["sortBy"];
+  dispatch: React.Dispatch<AppAction>;
   onBack: () => void;
   onRestart: () => void;
 }
@@ -61,8 +65,15 @@ function sortMatches(matches: JobMatch[], sortBy: AppState["sortBy"]): JobMatch[
   return copy;
 }
 
-export function ResultsView({ state, setState, onBack, onRestart }: ResultsViewProps) {
-  const { cvData, matches, minScore, sortBy } = state;
+export function ResultsView({
+  cvData,
+  matches,
+  minScore,
+  sortBy,
+  dispatch,
+  onBack,
+  onRestart,
+}: ResultsViewProps) {
   const name = cvData?.name || "Candidate";
 
   const sorted = sortMatches(matches, sortBy);
@@ -84,7 +95,7 @@ export function ResultsView({ state, setState, onBack, onRestart }: ResultsViewP
       {/* Controls */}
       <Controls
         minScore={minScore}
-        setState={setState}
+        dispatch={dispatch}
         sortBy={sortBy}
         filtered={filtered}
         matches={matches}
@@ -179,13 +190,13 @@ function StatCards({
 
 function Controls({
   minScore,
-  setState,
+  dispatch,
   sortBy,
   filtered,
   matches,
 }: {
   minScore: number;
-  setState: React.Dispatch<React.SetStateAction<AppState>>;
+  dispatch: React.Dispatch<AppAction>;
   sortBy: string;
   filtered: JobMatch[];
   matches: JobMatch[];
@@ -193,16 +204,13 @@ function Controls({
   const handleMinScoreChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
     if (!isNaN(value) && value >= 0 && value <= 100) {
-      setState((s) => ({ ...s, minScore: value }));
+      dispatch({ type: "SET_MIN_SCORE", payload: value });
     }
   };
 
   const handleSortByChange = (value: string | null) => {
     if (!value) return;
-    setState((s) => ({
-      ...s,
-      sortBy: value as AppState["sortBy"],
-    }));
+    dispatch({ type: "SET_SORT_BY", payload: value as AppState["sortBy"] });
   };
 
   return (

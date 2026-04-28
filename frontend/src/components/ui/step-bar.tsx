@@ -3,11 +3,6 @@ import { VIEWS } from "@/lib/types";
 import { CheckIcon } from "lucide-react";
 import { memo } from "react";
 
-export const STEP_INDEX = Object.fromEntries(VIEWS.map((v, i) => [v, i])) as Record<
-  (typeof VIEWS)[number],
-  number
->;
-
 export const StepBar = memo(function StepBar({ current }: { current: number }) {
   return (
     <div className="flex items-center gap-0">

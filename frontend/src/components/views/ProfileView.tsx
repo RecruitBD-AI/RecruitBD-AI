@@ -3,15 +3,16 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import type { AppAction } from "@/lib/reducer";
+import type { CVData } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import type { AppState, CVData } from "@/lib/types";
 import { ArrowLeftIcon, ArrowRightIcon, BriefcaseIcon, DotIcon, MinusIcon } from "lucide-react";
 import type React from "react";
 
 interface ProfileViewProps {
   cv: CVData;
-  state: AppState;
-  setState: React.Dispatch<React.SetStateAction<AppState>>;
+  topN: number;
+  dispatch: React.Dispatch<AppAction>;
   onMatch: () => void;
   onBack: () => void;
 }
@@ -50,13 +51,17 @@ const CORE_SKILLS = new Set([
   "linux",
 ]);
 
-export function ProfileView({ cv, state, setState, onMatch, onBack }: ProfileViewProps) {
+export function ProfileView({ cv, topN, dispatch, onMatch, onBack }: ProfileViewProps) {
   const initials = (cv.name || "CV")
     .split(" ")
     .map((s) => s[0])
     .join("")
     .toUpperCase()
     .slice(0, 2);
+
+  const handleTopNChange = (topN: number) => {
+    dispatch({ type: "SET_TOP_N", payload: topN });
+  };
 
   return (
     <div className="animate-fade-in-up">
@@ -175,25 +180,25 @@ export function ProfileView({ cv, state, setState, onMatch, onBack }: ProfileVie
         </Card>
 
         {/* Match Settings */}
-        <MatchSettings state={state} setState={setState} onMatch={onMatch} />
+        <MatchSettings topN={topN} onTopNChange={handleTopNChange} onMatch={onMatch} />
       </div>
     </div>
   );
 }
 
 function MatchSettings({
-  state,
-  setState,
+  topN,
+  onTopNChange,
   onMatch,
 }: {
-  state: AppState;
-  setState: React.Dispatch<React.SetStateAction<AppState>>;
+  topN: number;
+  onTopNChange: (topN: number) => void;
   onMatch: () => void;
 }) {
-  const handleTopNChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
     if (!isNaN(value) && value > 0) {
-      setState((s) => ({ ...s, topN: value }));
+      onTopNChange(value);
     }
   };
 
@@ -206,8 +211,8 @@ function MatchSettings({
         <div className="mb-2 text-sm">Top results to return</div>
         <Input
           type="number"
-          value={state.topN}
-          onChange={handleTopNChange}
+          value={topN}
+          onChange={handleChange}
           onKeyDown={(e) => e.key === "Enter" && onMatch()}
           className="mb-2 max-w-25"
         />

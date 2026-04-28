@@ -6,27 +6,16 @@ import { ResultsView } from "@/components/views/ResultsView";
 import { UploadView } from "@/components/views/UploadView";
 import { matchJobs, parseCV } from "@/lib/api";
 import { DEMO_CV, DEMO_MATCHES } from "@/lib/demo";
-import { VIEWS, type AppState } from "@/lib/types";
-import { useCallback, useEffect, useRef, useState } from "react";
-
-const INITIAL_STATE: AppState = {
-  view: "upload",
-  file: null,
-  cvData: null,
-  matches: [],
-  error: null,
-  topN: 10,
-  minScore: 0,
-  sortBy: "score",
-  isDemo: false,
-};
+import { appReducer, INITIAL_STATE } from "@/lib/reducer";
+import { VIEWS } from "@/lib/types";
+import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 
 const PARSE_STEPS = 5;
 const MATCH_STEPS = 5;
 const STEP_DELAY_MS = 500;
 
-export function App() {
-  const [state, setState] = useState(INITIAL_STATE);
+export default function App() {
+  const [state, dispatch] = useReducer(appReducer, INITIAL_STATE);
   const [animStep, setAnimStep] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -54,24 +43,15 @@ export function App() {
     [clearTimer],
   );
 
-  const handleDemo = useCallback(() => {
-    setState((s) => ({
-      ...s,
-      isDemo: true,
-      file: new File([], "demo.pdf", { type: "application/pdf" }),
-      error: null,
-    }));
-  }, []);
+  const handleDemo = () => {
+    dispatch({ type: "SET_DEMO" });
+  };
 
   const handleParse = useCallback(async () => {
     const isDemo = state.isDemo;
     const file = state.file;
 
-    setState((s) => ({
-      ...s,
-      view: "parse",
-      error: null,
-    }));
+    dispatch({ type: "START_PARSING" });
     runStepAnim(PARSE_STEPS);
 
     try {
@@ -81,14 +61,13 @@ export function App() {
 
       clearTimer();
       setAnimStep(PARSE_STEPS);
-      setState((s) => ({ ...s, cvData, view: "profile", error: null }));
+      dispatch({ type: "PARSING_SUCCESS", payload: cvData });
     } catch (err) {
       clearTimer();
-      setState((s) => ({
-        ...s,
-        view: "upload",
-        error: `Parse failed: ${(err as Error).message}. Make sure the FastAPI server is running.`,
-      }));
+      dispatch({
+        type: "SET_UPLOAD_ERROR",
+        payload: `Parse failed: ${(err as Error).message}. Make sure the FastAPI server is running on port 8000.`,
+      });
     }
   }, [state.isDemo, state.file, runStepAnim]);
 
@@ -97,7 +76,7 @@ export function App() {
     const cvData = state.cvData!;
     const topN = state.topN;
 
-    setState((s) => ({ ...s, view: "match", error: null }));
+    dispatch({ type: "START_MATCH" });
     runStepAnim(MATCH_STEPS);
 
     try {
@@ -106,33 +85,25 @@ export function App() {
         : await matchJobs(cvData, topN);
       clearTimer();
       setAnimStep(MATCH_STEPS);
-      setState((s) => ({ ...s, matches, view: "results", error: null }));
+      dispatch({ type: "MATCH_SUCCESS", payload: matches });
     } catch (err) {
       clearTimer();
-      setState((s) => ({
-        ...s,
-        view: "profile",
-        error: `Matching failed: ${(err as Error).message}. Make sure the FastAPI server is running on port 8000.`,
-      }));
+      dispatch({
+        type: "MATCH_ERROR",
+        payload: `Matching failed: ${(err as Error).message}. Make sure the FastAPI server is running on port 8000.`,
+      });
     }
   }, [state.isDemo, state.cvData, state.topN, runStepAnim]);
 
-  const handleBack = useCallback(() => {
-    setState((s) => {
-      if (s.view === "results") {
-        return { ...s, view: "profile", error: null };
-      } else if (s.view === "profile") {
-        return { ...s, view: "upload", error: null };
-      }
-      return { ...s, view: "upload", cvData: null, error: null };
-    });
-  }, []);
+  const handleBack = () => {
+    dispatch({ type: "GO_BACK" });
+  };
 
-  const handleRestart = useCallback(() => {
+  const handleRestart = () => {
     clearTimer();
     setAnimStep(0);
-    setState(INITIAL_STATE);
-  }, []);
+    dispatch({ type: "RESTART" });
+  };
 
   return (
     <div className="min-h-screen">
@@ -154,14 +125,21 @@ export function App() {
       {/* Views */}
       <main className="mx-auto max-w-245 px-6 py-12">
         {state.view === "upload" && (
-          <UploadView state={state} setState={setState} onParse={handleParse} onDemo={handleDemo} />
+          <UploadView
+            file={state.file}
+            error={state.error}
+            isDemo={state.isDemo}
+            dispatch={dispatch}
+            onParse={handleParse}
+            onDemo={handleDemo}
+          />
         )}
         {state.view === "parse" && <ProgressView type="parse" step={animStep} />}
         {state.view === "profile" && state.cvData && (
           <ProfileView
             cv={state.cvData}
-            state={state}
-            setState={setState}
+            topN={state.topN}
+            dispatch={dispatch}
             onMatch={handleMatch}
             onBack={handleBack}
           />
@@ -169,8 +147,11 @@ export function App() {
         {state.view === "match" && <ProgressView type="match" step={animStep} />}
         {state.view === "results" && (
           <ResultsView
-            state={state}
-            setState={setState}
+            cvData={state.cvData}
+            matches={state.matches}
+            minScore={state.minScore}
+            sortBy={state.sortBy}
+            dispatch={dispatch}
             onBack={handleBack}
             onRestart={handleRestart}
           />
@@ -180,4 +161,3 @@ export function App() {
   );
 }
 
-export default App;
