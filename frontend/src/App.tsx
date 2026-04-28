@@ -106,7 +106,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="flex min-h-screen flex-col">
       {/* Nav */}
       <nav className="bg-background border-border sticky top-0 z-50 border-b backdrop-blur-md">
         <div className="mx-auto flex h-14 max-w-245 items-center justify-between gap-4 px-6">
@@ -123,7 +123,7 @@ export default function App() {
       </nav>
 
       {/* Views */}
-      <main className="mx-auto max-w-245 px-6 py-12">
+      <main className="mx-auto w-full max-w-245 flex-1 px-6 py-12">
         {state.view === "upload" && (
           <UploadView
             file={state.file}
@@ -157,7 +157,77 @@ export default function App() {
           />
         )}
       </main>
+
+      {state.view !== "parse" && state.view !== "match" && <Footer />}
     </div>
   );
 }
 
+function Footer() {
+  return (
+    <footer className="border-border bg-background border-t py-12">
+      <div className="mx-auto flex max-w-245 flex-col justify-between gap-8 px-6 md:flex-row">
+        <div className="flex max-w-sm flex-col gap-4">
+          <div className="font-serif text-xl font-medium">
+            recruit<span className="text-primary font-serif">.</span>
+          </div>
+          <p className="text-muted-foreground text-sm leading-relaxed">
+            AI-powered recruitment and resume parsing platform to help you find the perfect matches.
+          </p>
+        </div>
+        <div>
+          <h3 className="mb-4 font-semibold">Built by</h3>
+          <div className="flex flex-col gap-3">
+            <a
+              href="https://github.com/AtifChy"
+              target="_blank"
+              rel="noreferrer"
+              className="group flex w-fit items-center gap-3"
+            >
+              <img
+                className="border-border bg-muted group-hover:border-primary inline-block h-8 w-8 rounded-full border-2 object-cover transition-transform group-hover:scale-110"
+                src="https://github.com/AtifChy.png"
+                alt="Md. Iftakhar Awal Chowdhury"
+              />
+              <span className="text-muted-foreground group-hover:text-foreground text-sm transition-colors">
+                Iftakhar
+              </span>
+            </a>
+            <a
+              href="https://github.com/raiyen-zayed-rakin"
+              target="_blank"
+              rel="noreferrer"
+              className="group flex w-fit items-center gap-3"
+            >
+              <img
+                className="border-border bg-muted group-hover:border-primary inline-block h-8 w-8 rounded-full border-2 object-cover transition-transform group-hover:scale-110"
+                src="https://github.com/raiyen-zayed-rakin.png"
+                alt="Raiyen Zayed Rakin"
+              />
+              <span className="text-muted-foreground group-hover:text-foreground text-sm transition-colors">
+                Raiyen
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div className="border-border text-muted-foreground mx-auto mt-12 max-w-245 border-t px-6 pt-8 text-center text-sm md:flex md:justify-between md:text-left">
+        <p>&copy; {new Date().getFullYear()} RecruitBD. All rights reserved.</p>
+        <div className="mt-4 flex justify-center gap-6 md:mt-0">
+          <a href="#" className="hover:text-foreground transition-colors">
+            Twitter
+          </a>
+          <a href="#" className="hover:text-foreground transition-colors">
+            LinkedIn
+          </a>
+          <a
+            href="https://github.com/raiyen-zayed-rakin/RecruitBD-AI"
+            className="hover:text-foreground transition-colors"
+          >
+            GitHub
+          </a>
+        </div>
+      </div>
+    </footer>
+  );
+}
