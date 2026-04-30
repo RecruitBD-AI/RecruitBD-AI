@@ -1,0 +1,162 @@
+[
+  {
+    "job_id": "1482716",
+    "job_title": "Java Developer",
+    "company": "Walton Hi-Tech Industries PLC.",
+    "location": "Gazipur (Kaliakair)",
+    "salary_range": "Negotiable",
+    "deadline": "May 16, 2026",
+    "final_score": 32.9,
+    "breakdown": {
+      "method": "Jaccard",
+      "cv_skills_count": 30,
+      "job_skills_count": 5,
+      "matched_skills": 4,
+      "jaccard_score": 32.9
+    }
+  },
+  {
+    "job_id": "1482909",
+    "job_title": "AI Developer - Enterprise AI, Microsoft Copilot & SAP Joule",
+    "company": "Renowned European Company",
+    "location": "Dhaka",
+    "salary_range": "Negotiable",
+    "deadline": "May 29, 2026",
+    "final_score": 31.76,
+    "breakdown": {
+      "method": "Jaccard",
+      "cv_skills_count": 30,
+      "job_skills_count": 8,
+      "matched_skills": 4,
+      "jaccard_score": 31.76
+    }
+  },
+  {
+    "job_id": "1483472",
+    "job_title": "Full Stack Web Developer",
+    "company": "Global Routeway Consultants",
+    "location": "Dhaka (Shyamoli)",
+    "salary_range": "Negotiable",
+    "deadline": "May 1, 2026",
+    "final_score": 29.09,
+    "breakdown": {
+      "method": "Jaccard",
+      "cv_skills_count": 30,
+      "job_skills_count": 6,
+      "matched_skills": 3,
+      "jaccard_score": 29.09
+    }
+  },
+  {
+    "job_id": "1474017",
+    "job_title": "Java Developer",
+    "company": "Nano Information Technology",
+    "location": "Dhaka",
+    "salary_range": "Tk. 30000 - 60000 (Monthly)",
+    "deadline": "May 5, 2026",
+    "final_score": 29.09,
+    "breakdown": {
+      "method": "Jaccard",
+      "cv_skills_count": 30,
+      "job_skills_count": 6,
+      "matched_skills": 3,
+      "jaccard_score": 29.09
+    }
+  },
+  {
+    "job_id": "1473399",
+    "job_title": "Lead Angular Developer",
+    "company": "Pridesys IT Limited",
+    "location": "Dhaka",
+    "salary_range": "Negotiable",
+    "deadline": "May 2, 2026",
+    "final_score": 29.09,
+    "breakdown": {
+      "method": "Jaccard",
+      "cv_skills_count": 30,
+      "job_skills_count": 6,
+      "matched_skills": 3,
+      "jaccard_score": 29.09
+    }
+  },
+  {
+    "job_id": "1477039",
+    "job_title": "Sr. SQA Engineer",
+    "company": "Orange Business Development Ltd. (Orangebd)",
+    "location": "Dhaka (DOHS Baridhara)",
+    "salary_range": "Negotiable",
+    "deadline": "May 13, 2026",
+    "final_score": 28.82,
+    "breakdown": {
+      "method": "Jaccard",
+      "cv_skills_count": 30,
+      "job_skills_count": 7,
+      "matched_skills": 3,
+      "jaccard_score": 28.82
+    }
+  },
+  {
+    "job_id": "1479211",
+    "job_title": "Senior Software Engineer (.NET)",
+    "company": "Weblink Communications Ltd.",
+    "location": "Dhaka (Banani)",
+    "salary_range": "Negotiable",
+    "deadline": "May 20, 2026",
+    "final_score": 28.33,
+    "breakdown": {
+      "method": "Jaccard",
+      "cv_skills_count": 30,
+      "job_skills_count": 9,
+      "matched_skills": 3,
+      "jaccard_score": 28.33
+    }
+  },
+  {
+    "job_id": "1482345",
+    "job_title": "Intern - Developer",
+    "company": "Itransition Software Bangladesh Ltd",
+    "location": "Anywhere in Bangladesh",
+    "salary_range": "Negotiable",
+    "deadline": "May 12, 2026",
+    "final_score": 26.67,
+    "breakdown": {
+      "method": "Jaccard",
+      "cv_skills_count": 30,
+      "job_skills_count": 2,
+      "matched_skills": 2,
+      "jaccard_score": 26.67
+    }
+  },
+  {
+    "job_id": "1482299",
+    "job_title": "Data Analyst",
+    "company": "Huawei Technologies Bangladesh Ltd.",
+    "location": "Anywhere in Bangladesh",
+    "salary_range": "Negotiable",
+    "deadline": "May 16, 2026",
+    "final_score": 26.67,
+    "breakdown": {
+      "method": "Jaccard",
+      "cv_skills_count": 30,
+      "job_skills_count": 2,
+      "matched_skills": 2,
+      "jaccard_score": 26.67
+    }
+  },
+  {
+    "job_id": "1481662",
+    "job_title": "Programmer (ERP Development) - IT",
+    "company": "A Reputed Knit Garments Industries.",
+    "location": "Gazipur (Gazipur Sadar)",
+    "salary_range": "Negotiable",
+    "deadline": "May 11, 2026",
+    "final_score": 26.67,
+    "breakdown": {
+      "method": "Jaccard",
+      "cv_skills_count": 30,
+      "job_skills_count": 2,
+      "matched_skills": 2,
+      "jaccard_score": 26.67
+    }
+  }
+]

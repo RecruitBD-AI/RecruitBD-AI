@@ -6,3 +6,4 @@ docx
 beautifulsoup4
 tqdm
 sentence-transformers
+tabulate

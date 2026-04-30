@@ -1,0 +1,132 @@
+[
+  {
+    "job_id": "1473025",
+    "job_title": "Fitness Trainer",
+    "company": "Posted by Pavel Rayhan",
+    "location": "Dhaka (DOHS Mohakhali)",
+    "salary_range": "--",
+    "deadline": "Apr 1, 2027",
+    "final_score": 25.19,
+    "breakdown": {
+      "method": "TF-IDF",
+      "similarity": 0.2519
+    }
+  },
+  {
+    "job_id": "1481320",
+    "job_title": "Multipurpose Community Volunteer (MCV) - Host Community",
+    "company": "Friends in Village Development Bangladesh (FIVDB)",
+    "location": "Cox`s Bazar",
+    "salary_range": "Tk. 15000 (Monthly)",
+    "deadline": "May 2, 2026",
+    "final_score": 25.14,
+    "breakdown": {
+      "method": "TF-IDF",
+      "similarity": 0.2514
+    }
+  },
+  {
+    "job_id": "1477637",
+    "job_title": "Full Time Teacher (Sociology, Humanities, Modern History, ELA, Political Science)",
+    "company": "Canadian Trillinium International School",
+    "location": "Dhaka (GULSHAN 2, Malibagh)",
+    "salary_range": "Negotiable",
+    "deadline": "May 15, 2026",
+    "final_score": 24.08,
+    "breakdown": {
+      "method": "TF-IDF",
+      "similarity": 0.2408
+    }
+  },
+  {
+    "job_id": "1477945",
+    "job_title": "AI Software Engineer",
+    "company": "Niduslab",
+    "location": "Dhaka",
+    "salary_range": "Negotiable",
+    "deadline": "May 15, 2026",
+    "final_score": 23.23,
+    "breakdown": {
+      "method": "TF-IDF",
+      "similarity": 0.2323
+    }
+  },
+  {
+    "job_id": "1480539",
+    "job_title": "Computer Science Teacher, STD VIII - IX (Cambridge IGCSE)",
+    "company": "Yale International School",
+    "location": "Dhaka (Uttara Sector 14)",
+    "salary_range": "Negotiable",
+    "deadline": "May 22, 2026",
+    "final_score": 21.89,
+    "breakdown": {
+      "method": "TF-IDF",
+      "similarity": 0.2189
+    }
+  },
+  {
+    "job_id": "1481597",
+    "job_title": "Executive, IT",
+    "company": "Masco Group",
+    "location": "Gazipur (Tongi)",
+    "salary_range": "Negotiable",
+    "deadline": "May 26, 2026",
+    "final_score": 21.58,
+    "breakdown": {
+      "method": "TF-IDF",
+      "similarity": 0.2158
+    }
+  },
+  {
+    "job_id": "1481316",
+    "job_title": "Multipurpose Community Volunteers Supervisor (MCVS)",
+    "company": "Friends in Village Development Bangladesh (FIVDB)",
+    "location": "Cox`s Bazar",
+    "salary_range": "Negotiable",
+    "deadline": "May 1, 2026",
+    "final_score": 21.06,
+    "breakdown": {
+      "method": "TF-IDF",
+      "similarity": 0.2106
+    }
+  },
+  {
+    "job_id": "1481847",
+    "job_title": "Student Counselor (Education Consultancy)",
+    "company": "World Wide Education Cumilla",
+    "location": "Cumilla",
+    "salary_range": "Tk. 12000 - 20000 (Monthly)",
+    "deadline": "May 11, 2026",
+    "final_score": 20.91,
+    "breakdown": {
+      "method": "TF-IDF",
+      "similarity": 0.2091
+    }
+  },
+  {
+    "job_id": "1481358",
+    "job_title": "Associate Professor/ Profesor - Department of Computer Science and Engineering",
+    "company": "University of South Asia",
+    "location": "Dhaka (Amin Bazar)",
+    "salary_range": "Negotiable",
+    "deadline": "May 1, 2026",
+    "final_score": 20.71,
+    "breakdown": {
+      "method": "TF-IDF",
+      "similarity": 0.2071
+    }
+  },
+  {
+    "job_id": "1481174",
+    "job_title": "Lecturer, Dept of Community Medicine and Public Health",
+    "company": "Institute of Applied Health Sciences (IAHS)-USTC Complex, Foy`s Lake, Chattogram, Bangladesh",
+    "location": "Chattogram",
+    "salary_range": "Negotiable",
+    "deadline": "May 23, 2026",
+    "final_score": 20.31,
+    "breakdown": {
+      "method": "TF-IDF",
+      "similarity": 0.2031
+    }
+  }
+]
