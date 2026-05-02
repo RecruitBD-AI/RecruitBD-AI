@@ -30,6 +30,7 @@ export const DEMO_CV: CVData = {
       endDate: "Present",
       description:
         "Built backend microservices in Python/FastAPI. Led ML pipeline for customer churn prediction.",
+      tech: [],
     },
     {
       title: "Junior Developer",
@@ -37,6 +38,7 @@ export const DEMO_CV: CVData = {
       startDate: "2021-01",
       endDate: "2021-12",
       description: "Developed React dashboard and REST APIs. Worked with PostgreSQL and Docker.",
+      tech: [],
     },
   ],
   education: [

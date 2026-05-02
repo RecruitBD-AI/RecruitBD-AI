@@ -154,14 +154,28 @@ export function ProfileView({ cv, topN, error, dispatch, onMatch, onBack }: Prof
                 key={i}
                 className={cn("pb-3", i < cv.experience.length - 1 ? "border-border border-b" : "")}
               >
-                <div className="text-sm font-medium">{e.title || <MinusIcon size={20} />}</div>
+                <div className="text-sm font-medium capitalize">
+                  {e.title || <MinusIcon size={20} />}
+                </div>
                 <div className="text-muted-foreground flex items-center text-xs">
-                  {e.company !== "" ? e.company : "N/A"}
-                  {e.startDate && (
+                  {e.tech && e.tech.length > 0 ? (
+                    <div className="pt-1">
+                      {e.tech.map((t, j) => (
+                        <Badge key={j} variant="outline" className="bg-border mr-1 text-xs">
+                          {t}
+                        </Badge>
+                      ))}
+                    </div>
+                  ) : (
                     <>
-                      <DotIcon size={16} />
-                      {e.startDate}
-                      {e.endDate && <span>&nbsp;– {e.endDate}</span>}
+                      {e.company !== "" ? e.company : "N/A"}
+                      {e.startDate && (
+                        <>
+                          <DotIcon size={16} />
+                          {e.startDate}
+                          {e.endDate && <span>&nbsp;– {e.endDate}</span>}
+                        </>
+                      )}
                     </>
                   )}
                 </div>

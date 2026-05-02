@@ -19,6 +19,7 @@ export interface ExperienceEntry {
   startDate: string;
   endDate: string;
   description: string;
+  tech: string[];
 }
 
 export interface EducationEntry {
