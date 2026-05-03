@@ -66,7 +66,7 @@ EXTRACTION INSTRUCTIONS:
 - For skills:
   - Extract explicit skills only (no assumptions).
 - If no experience exist, return empty list [].
-- If experience is a project, keep company as empty string and title as "[Project Name]".
+- If experience is a project, keep company as empty string and title as project name.
 
 CV TEXT:
 {text}
