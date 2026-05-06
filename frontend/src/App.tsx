@@ -9,6 +9,7 @@ import { DEMO_CV, DEMO_MATCHES } from "@/lib/demo";
 import { appReducer, INITIAL_STATE } from "@/lib/reducer";
 import { VIEWS } from "@/lib/types";
 import React, { useCallback, useEffect, useReducer, useRef, useState } from "react";
+import { BackendStatus } from "@/components/ui/backend-status";
 
 const PARSE_STEPS = 5;
 const MATCH_STEPS = 5;
@@ -118,6 +119,7 @@ export default function App() {
 
           {state.view !== "upload" && <StepBar current={VIEWS.indexOf(state.view)} />}
 
+          {state.view === "upload" && <BackendStatus />}
           <ThemeToggle />
         </div>
       </nav>

@@ -158,10 +158,10 @@ export function ProfileView({ cv, topN, error, dispatch, onMatch, onBack }: Prof
                   {e.title || <MinusIcon size={20} />}
                 </div>
                 <div className="text-muted-foreground flex items-center text-xs">
-                  {e.tech && e.tech.length > 0 ? (
-                    <div className="pt-1">
+                  {e.type === "project" && e.tech && e.tech.length > 0 ? (
+                    <div className="mb-1 pt-1">
                       {e.tech.map((t, j) => (
-                        <Badge key={j} variant="outline" className="bg-border mr-1 text-xs">
+                        <Badge key={j} variant="outline" className="bg-border mr-1 mb-1 text-xs">
                           {t}
                         </Badge>
                       ))}
@@ -169,10 +169,12 @@ export function ProfileView({ cv, topN, error, dispatch, onMatch, onBack }: Prof
                   ) : (
                     <>
                       {e.company !== "" ? e.company : "N/A"}
+
                       {e.startDate && (
                         <>
                           <DotIcon size={16} />
                           {e.startDate}
+
                           {e.endDate && <span>&nbsp;– {e.endDate}</span>}
                         </>
                       )}
@@ -236,7 +238,7 @@ function MatchSettings({
       <div className="text-muted-foreground flex flex-row text-[11px] font-medium tracking-widest uppercase">
         Match Settings
       </div>
-      <div>
+      <div className="flex h-full flex-col">
         <div className="mb-2 text-sm">Top results to return</div>
         <Input
           type="number"
@@ -249,10 +251,12 @@ function MatchSettings({
           Scores jobs across skill match, education fit, experience level, semantic similarity,
           title alignment, and seniority penalty.
         </div>
-        <Separator className="my-4" />
-        <Button onClick={onMatch} className="w-full">
-          <BriefcaseIcon /> Run matching <ArrowRightIcon />
-        </Button>
+        <div className="mt-auto">
+          <Separator className="my-4" />
+          <Button onClick={onMatch} className="w-full">
+            <BriefcaseIcon /> Run matching <ArrowRightIcon />
+          </Button>
+        </div>
       </div>
     </Card>
   );

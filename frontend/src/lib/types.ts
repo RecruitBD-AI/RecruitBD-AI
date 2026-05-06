@@ -14,6 +14,7 @@ export interface CVData {
 }
 
 export interface ExperienceEntry {
+  type: "work" | "project";
   title: string;
   company: string;
   startDate: string;
@@ -48,6 +49,12 @@ export interface ScoreBreakdown {
   title_match: number;
   skill_source: number;
   seniority_penalty: number;
+}
+
+export interface Health {
+  status: "ok" | "error";
+  jobs_loaded: number;
+  model_loaded: boolean;
 }
 
 // Define typescript interface for the application state

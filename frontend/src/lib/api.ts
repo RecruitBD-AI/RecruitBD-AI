@@ -1,4 +1,4 @@
-import type { CVData, JobMatch } from "@/lib/types";
+import type { CVData, Health, JobMatch } from "@/lib/types";
 
 const API = import.meta.env.VITE_API_URI || "http://localhost:8000";
 
@@ -31,5 +31,14 @@ export async function matchJobs(cv: CVData, topN: number): Promise<JobMatch[]> {
     throw new Error(err.message ?? `Server error: ${response.status}`);
   }
 
+  return response.json();
+}
+
+export async function checkHealth(): Promise<Health> {
+  const response = await fetch(`${API}/health`);
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({ message: `HTTP ${response.status}` }));
+    throw new Error(err.message ?? `Server error: ${response.status}`);
+  }
   return response.json();
 }
