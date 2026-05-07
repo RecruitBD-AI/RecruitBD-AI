@@ -55,7 +55,7 @@ async def lifespan(app: FastAPI):
     app.state.ready = False
 
     # Load resources in the background
-    asyncio.create_task(_load_resources(app))
+    await _load_resources(app)
 
     yield
 
