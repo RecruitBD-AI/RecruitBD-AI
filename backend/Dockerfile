@@ -25,7 +25,7 @@ FROM model-cache AS runtime
 COPY . .
 
 # Generate the job index (this will scrape fresh jobs if no CSV is found)
-RUN uv run --extra cpu python -m services.build_index
+RUN uv run --extra cpu -m services.matcher.build_index
 
 EXPOSE 8000
 
