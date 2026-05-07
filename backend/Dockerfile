@@ -16,7 +16,7 @@ RUN uv sync --extra cpu --no-dev
 FROM builder AS model-cache
 
 # Download the model into the image at build time so cold starts are instant
-RUN uv run --extra cpu python -c "from sentence_transformers import SentenceTransformer;SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')"
+RUN uv run --extra cpu python -c "from sentence_transformers import SentenceTransformer;SentenceTransformer('all-MiniLM-L6-v2')"
 
 # ── Stage 3: final runtime image ──────────────────────────────────────────────
 FROM model-cache AS runtime
@@ -25,7 +25,7 @@ FROM model-cache AS runtime
 COPY . .
 
 # Generate the job index (this will scrape fresh jobs if no CSV is found)
-RUN uv run --extra cpu -m services.matcher.build_index
+# RUN uv run --extra cpu -m services.matcher.build_index
 
 EXPOSE 8000
 

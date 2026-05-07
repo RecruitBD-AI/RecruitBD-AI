@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "aiohttp>=3.13.5",
+    "apscheduler>=3.11.2",
     "bs4>=0.0.2",
     "fastapi>=0.115.0",
     "google-genai>=1.74.0",

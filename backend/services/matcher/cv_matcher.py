@@ -17,6 +17,8 @@ import re
 import warnings
 from typing import Any
 
+from core.config import SBERT_MODEL
+
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
@@ -614,7 +616,7 @@ def match(cv_path, index_prefix, top_n=10, output_path=None):
     print(f"Jobs    : {len(job_metadata)} loaded from index")
 
     print("Loading Sentence-BERT model...")
-    model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
+    model = SentenceTransformer(SBERT_MODEL)
 
     # Pre-compute CV values once
     cv_level, cv_years = cv_seniority(cv)

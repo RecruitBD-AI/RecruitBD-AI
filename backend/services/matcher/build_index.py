@@ -17,8 +17,9 @@ import re
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-from core.config import DATA_DIR, INDEX_DIR
+from core.config import DATA_DIR, INDEX_DIR, SBERT_MODEL
 from services import scrape_jobs
+
 from .constants import (
     CORE_SKILL_PATTERNS,
     SENIORITY_MAP,
@@ -106,7 +107,7 @@ async def main(output_prefix: str = "job_index"):
 
     print(f"Jobs loaded: {len(jobs)}")
     print("Loading Sentence-BERT model...")
-    model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
+    model = SentenceTransformer(SBERT_MODEL)
 
     # Build metadata for each job (pre-extracted fields)
     print("Extracting job metadata...")
