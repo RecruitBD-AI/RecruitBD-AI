@@ -5,14 +5,12 @@ from typing import Callable
 
 import numpy as np
 import torch
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.concurrency import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 from sentence_transformers import SentenceTransformer
 
 from core.config import INDEX_DIR, SBERT_MODEL
-from services import build_index, scrape_jobs
 
 from .routes import router
 
@@ -49,17 +47,6 @@ async def _load_resources(app: FastAPI):
         app.state.ready = False
 
 
-async def _nightly_job(app: FastAPI):
-    try:
-        print("Starting nightly job: scraping jobs and rebuilding index...")
-        await scrape_jobs()
-        await build_index()
-        print("Nightly job completed successfully.")
-        await _load_resources(app)  # Reload resources after rebuilding index
-    except Exception:
-        logging.exception("Nightly job failed")
-
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Lifespan context manager to load resources on startup."""
@@ -69,18 +56,12 @@ async def lifespan(app: FastAPI):
     app.state.job_metadata = None
     app.state.ready = False
 
-    scheduler = AsyncIOScheduler()
-    scheduler.add_job(_nightly_job, "cron", hour=3, minute=0, args=[app])
-    scheduler.start()
-
     if not EMB_PATH.exists() or not META_PATH.exists():
         logging.warning("Index files not found, running initial scrape and index build...")
-        asyncio.create_task(_nightly_job(app))
     else:
         asyncio.create_task(_load_resources(app))
 
     yield
-    scheduler.shutdown()
 
 
 app = FastAPI(lifespan=lifespan)
