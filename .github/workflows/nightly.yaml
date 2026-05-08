@@ -1,0 +1,40 @@
+name: Nightly Scraping & Index
+
+on:
+  schedule:
+    - cron: "3 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b
+
+      - name: Install dependencies
+        run: uv sync --extra cpu
+
+      - name: Run scraper
+        run: uv run --extra cpu -m services.jobs.jobs
+
+      - name: Run indexer
+        run: uv run --extra cpu -m services.matcher.build_index
+
+      - name: Commit and Push changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .
+          git diff --staged --quiet || git commit -m "chore: nightly index update"
+          git push
