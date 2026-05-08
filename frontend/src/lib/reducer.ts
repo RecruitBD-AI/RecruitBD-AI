@@ -41,7 +41,14 @@ export function appReducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
     // Upload and demo actions
     case "SET_FILE":
-      return { ...state, file: action.payload, error: null, isDemo: false };
+      return {
+        ...state,
+        file: action.payload,
+        cvData: null,
+        matches: [],
+        error: null,
+        isDemo: false,
+      };
     case "SET_DEMO":
       return {
         ...state,

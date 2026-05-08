@@ -1,3 +1,5 @@
+import { useStepAnimation } from "@/components/hooks/step-animation";
+import { BackendStatus } from "@/components/ui/backend-status";
 import { StepBar } from "@/components/ui/step-bar";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProfileView } from "@/components/views/ProfileView";
@@ -7,9 +9,8 @@ import { UploadView } from "@/components/views/UploadView";
 import { matchJobs, parseCV } from "@/lib/api";
 import { DEMO_CV, DEMO_MATCHES } from "@/lib/demo";
 import { appReducer, INITIAL_STATE } from "@/lib/reducer";
-import { VIEWS } from "@/lib/types";
-import React, { useCallback, useEffect, useReducer, useRef, useState } from "react";
-import { BackendStatus } from "@/components/ui/backend-status";
+import { VIEWS, type AppView } from "@/lib/types";
+import React, { useCallback, useEffect, useReducer } from "react";
 
 const PARSE_STEPS = 5;
 const MATCH_STEPS = 5;
@@ -17,32 +18,12 @@ const STEP_DELAY_MS = 500;
 
 export default function App() {
   const [state, dispatch] = useReducer(appReducer, INITIAL_STATE);
-  const [animStep, setAnimStep] = useState(0);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const { animationStep, setAnimationStep, startAnimation, clearTimer, reset } =
+    useStepAnimation(STEP_DELAY_MS);
 
-  const clearTimer = () => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
-  };
-
-  useEffect(() => () => clearTimer(), []);
-
-  const runStepAnim = useCallback(
-    (totalSteps: number) => {
-      clearTimer();
-      setAnimStep(0);
-      let step = 0;
-      timerRef.current = setInterval(() => {
-        if (step < totalSteps - 1) {
-          step++;
-          setAnimStep(step);
-        }
-      }, STEP_DELAY_MS);
-    },
-    [clearTimer],
-  );
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [state.view]);
 
   const handleDemo = () => {
     dispatch({ type: "SET_DEMO" });
@@ -53,7 +34,7 @@ export default function App() {
     const file = state.file;
 
     dispatch({ type: "START_PARSING" });
-    runStepAnim(PARSE_STEPS);
+    startAnimation(PARSE_STEPS);
 
     try {
       const cvData = isDemo
@@ -61,7 +42,7 @@ export default function App() {
         : await parseCV(file!);
 
       clearTimer();
-      setAnimStep(PARSE_STEPS);
+      setAnimationStep(PARSE_STEPS);
       dispatch({ type: "PARSING_SUCCESS", payload: cvData });
     } catch (err) {
       clearTimer();
@@ -70,7 +51,7 @@ export default function App() {
         payload: `Parse failed: ${(err as Error).message}.`,
       });
     }
-  }, [state.isDemo, state.file, runStepAnim]);
+  }, [state.isDemo, state.file, startAnimation]);
 
   const handleMatch = useCallback(async () => {
     const isDemo = state.isDemo;
@@ -78,14 +59,14 @@ export default function App() {
     const topN = state.topN;
 
     dispatch({ type: "START_MATCH" });
-    runStepAnim(MATCH_STEPS);
+    startAnimation(MATCH_STEPS);
 
     try {
       const matches = isDemo
         ? await new Promise<typeof DEMO_MATCHES>((r) => setTimeout(() => r(DEMO_MATCHES), 3200))
         : await matchJobs(cvData, topN);
       clearTimer();
-      setAnimStep(MATCH_STEPS);
+      startAnimation(MATCH_STEPS);
       dispatch({ type: "MATCH_SUCCESS", payload: matches });
     } catch (err) {
       clearTimer();
@@ -94,35 +75,21 @@ export default function App() {
         payload: `Match failed: ${(err as Error).message}.`,
       });
     }
-  }, [state.isDemo, state.cvData, state.topN, runStepAnim]);
+  }, [state.isDemo, state.cvData, state.topN, startAnimation]);
 
   const handleBack = () => {
     dispatch({ type: "GO_BACK" });
   };
 
   const handleRestart = () => {
-    clearTimer();
-    setAnimStep(0);
+    reset();
     dispatch({ type: "RESTART" });
   };
 
   return (
     <div className="flex min-h-screen flex-col">
       {/* Nav */}
-      <nav className="bg-background border-border sticky top-0 z-50 border-b backdrop-blur-md">
-        <div className="mx-auto flex h-14 max-w-245 items-center justify-between gap-4 px-6">
-          <div className="flex flex-wrap items-center gap-5">
-            <div className="cursor-pointer font-serif text-2xl" onClick={handleRestart}>
-              recruit<span className="text-primary font-serif">.</span>
-            </div>
-          </div>
-
-          {state.view !== "upload" && <StepBar current={VIEWS.indexOf(state.view)} />}
-
-          {state.view === "upload" && <BackendStatus />}
-          <ThemeToggle />
-        </div>
-      </nav>
+      <NavBar view={state.view} onRestart={handleRestart} />
 
       {/* Views */}
       <main className="mx-auto w-full max-w-245 flex-1 px-6 py-12">
@@ -136,7 +103,7 @@ export default function App() {
             onDemo={handleDemo}
           />
         )}
-        {state.view === "parse" && <ProgressView type="parse" step={animStep} />}
+        {state.view === "parse" && <ProgressView type="parse" step={animationStep} />}
         {state.view === "profile" && state.cvData && (
           <ProfileView
             cv={state.cvData}
@@ -147,7 +114,7 @@ export default function App() {
             onBack={handleBack}
           />
         )}
-        {state.view === "match" && <ProgressView type="match" step={animStep} />}
+        {state.view === "match" && <ProgressView type="match" step={animationStep} />}
         {state.view === "results" && (
           <ResultsView
             cvData={state.cvData}
@@ -163,6 +130,22 @@ export default function App() {
 
       {state.view !== "parse" && state.view !== "match" && <Footer />}
     </div>
+  );
+}
+
+function NavBar({ view, onRestart }: { view: AppView; onRestart: () => void }) {
+  return (
+    <nav className="bg-background border-border sticky top-0 z-50 border-b backdrop-blur-md">
+      <div className="mx-auto flex h-14 max-w-245 items-center justify-between gap-4 px-6">
+        <div className="flex flex-wrap items-center gap-5">
+          <div className="cursor-pointer font-serif text-2xl" onClick={onRestart}>
+            recruit<span className="text-primary font-serif">.</span>
+          </div>
+        </div>
+        {view !== "upload" ? <StepBar current={VIEWS.indexOf(view)} /> : <BackendStatus />}
+        <ThemeToggle />
+      </div>
+    </nav>
   );
 }
 
