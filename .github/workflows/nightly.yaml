@@ -2,7 +2,7 @@ name: Nightly Scraping & Index
 
 on:
   schedule:
-    - cron: "3 3 * * *"
+    - cron: "0 0 * * *" # Runs every day at midnight UTC
   workflow_dispatch:
 
 jobs:
@@ -15,7 +15,8 @@ jobs:
         working-directory: backend
 
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout repository
+        uses: actions/checkout@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
