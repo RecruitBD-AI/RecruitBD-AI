@@ -1,14 +1,10 @@
 """
-cv_matcher.py — CV to Job Matching Engine (v6)
+cv_matcher.py — CV to Job Matching Engine (v7)
 -----------------------------------------------
 Loads precomputed job index from build_index.py for fast matching.
 Only encodes the CV — job embeddings are loaded from disk instantly.
 
 Run build_index.py ONCE first, then use this for every CV.
-
-
-
-command: python cv_matcher5.py --cv cv-jsons/Raiyen_Zayed_Rakin_CV.json --index csv-encoder/job_index --top 10 --output matches.json
 """
 
 import argparse
@@ -23,13 +19,12 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 
 from .constants import (
-    CORE_SKILL_PATTERNS,
     CORE_SKILLS,
-    SENIORITY_MAP,
-    SENIORITY_PATTERNS,
     SOFT_SKILLS,
-    SYNONYM_MAP,
-    SYNONYM_PATTERNS,
+    canonicalize,
+    detect_seniority,
+    extract_known_skills_from_text,
+    normalize_skill,
 )
 
 warnings.filterwarnings("ignore")
@@ -38,19 +33,20 @@ warnings.filterwarnings("ignore")
 # ── WEIGHTS ───────────────────────────────────────────────────────────────────
 
 WEIGHTS = {
-    "skill": 0.35,
-    "education": 0.20,
+    "skill": 0.33,
+    "education": 0.15,
     "experience": 0.15,
-    "semantic": 0.11,
-    "title": 0.06,
+    "semantic": 0.17,
+    "title": 0.08,
     "skill_source": 0.05,
     "nature": 0.04,
-    "workplace": 0.04,
+    "workplace": 0.03,
 }
 
 
 def skill_weight(skill):
-    s = skill.lower()
+    """Weight a skill — canonicalize first so synonyms get correct weight."""
+    s = canonicalize(skill)
     if s in CORE_SKILLS:
         return 1.5
     if s in SOFT_SKILLS:
@@ -59,57 +55,79 @@ def skill_weight(skill):
 
 
 FIELD_RELEVANCE = {
-    "software": [
-        "computer science",
-        "cse",
-        "software engineering",
-        "it",
-        "mathematics",
-        "physics",
-        "electrical",
-        "electronics",
-    ],
-    "developer": ["computer science", "cse", "software engineering", "it", "mathematics", "physics"],
-    "engineer": [
-        "computer science",
-        "cse",
-        "electrical",
-        "mechanical",
-        "civil",
-        "electronics",
-        "mathematics",
-        "physics",
-    ],
-    "data": ["computer science", "cse", "statistics", "mathematics", "physics", "economics"],
-    "ai": ["computer science", "cse", "mathematics", "statistics", "physics", "electrical"],
-    "web": ["computer science", "cse", "it"],
-    "mobile": ["computer science", "cse", "it"],
-    "android": ["computer science", "cse", "it"],
-    "ios": ["computer science", "cse", "it"],
-    "flutter": ["computer science", "cse", "it"],
-    "backend": ["computer science", "cse", "it"],
-    "frontend": ["computer science", "cse", "it"],
-    "devops": ["computer science", "cse", "it"],
-    "network": ["computer science", "cse", "electrical", "it"],
-    "business": ["business administration", "bba", "mba", "commerce"],
-    "finance": ["finance", "accounting", "business administration", "economics"],
-    "marketing": ["marketing", "business administration", "bba", "mba"],
-    "account": ["accounting", "finance", "commerce"],
-    "teacher": ["education", "english", "any discipline"],
-    "doctor": ["medicine", "mbbs"],
-    "nurse": ["nursing", "health science"],
+    # Each entry maps a job keyword to (primary_fields, adjacent_fields).
+    # Primary fields score 1.0; adjacent fields score 0.7.
+    "software": (
+        ["computer science", "cse", "software engineering", "it"],
+        ["mathematics", "physics", "electrical", "electronics"],
+    ),
+    "developer": (
+        ["computer science", "cse", "software engineering", "it"],
+        ["mathematics", "physics"],
+    ),
+    "engineer": (
+        ["computer science", "cse", "electrical", "mechanical", "civil", "electronics"],
+        ["mathematics", "physics"],
+    ),
+    "data": (
+        ["computer science", "cse", "statistics", "mathematics"],
+        ["physics", "economics", "electrical"],
+    ),
+    "ai": (
+        ["computer science", "cse", "mathematics", "statistics"],
+        ["physics", "electrical", "electronics"],
+    ),
+    "web": (["computer science", "cse", "software engineering", "it"], []),
+    "mobile": (["computer science", "cse", "software engineering", "it"], []),
+    "android": (["computer science", "cse", "it"], []),
+    "ios": (["computer science", "cse", "it"], []),
+    "flutter": (["computer science", "cse", "it"], []),
+    "backend": (["computer science", "cse", "software engineering", "it"], []),
+    "frontend": (["computer science", "cse", "software engineering", "it"], []),
+    "devops": (["computer science", "cse", "it"], ["electrical"]),
+    "network": (["computer science", "cse", "it"], ["electrical", "electronics"]),
+    "electrical": (
+        ["electrical", "electronics", "eee"],
+        ["physics", "mechanical", "computer science", "cse"],
+    ),
+    "mechanical": (
+        ["mechanical", "civil"],
+        ["physics", "mathematics", "electrical"],
+    ),
+    "business": (["business administration", "bba", "mba", "commerce"], ["economics"]),
+    "finance": (["finance", "accounting", "business administration", "economics"], []),
+    "marketing": (["marketing", "business administration", "bba", "mba"], ["commerce"]),
+    "account": (["accounting", "finance", "commerce"], ["business administration"]),
+    "teacher": (["education", "english", "any discipline"], []),
+    "doctor": (["medicine", "mbbs"], []),
+    "nurse": (["nursing", "health science"], []),
 }
 
 
 def field_of_study_score(cv_education, job_title, job_desc):
-    cv_fields = " ".join(e.get("degree", "") + " " + e.get("institution", "") for e in cv_education).lower()
+    """Score how well the candidate's field of study matches the job.
+    Uses tiered relevance: primary fields → 1.0, adjacent fields → 0.7.
+    """
+    cv_fields = " ".join(
+        e.get("degree", "") + " " + e.get("institution", "") for e in cv_education
+    ).lower()
     job_text = (job_title + " " + job_desc[:300]).lower()
-    for keyword, fields in FIELD_RELEVANCE.items():
-        if keyword in job_text:
-            for field in fields:
-                if field in cv_fields:
-                    return 1.0
-            return 0.4  # softened from 0.2 — many roles accept adjacent disciplines
+
+    for keyword, (primary, adjacent) in FIELD_RELEVANCE.items():
+        # Use word-boundary match to avoid false positives
+        # (e.g. "ai" matching inside "maintain")
+        if not re.search(r"\b" + re.escape(keyword) + r"\b", job_text):
+            continue
+        # Check primary fields first (best match)
+        for field in primary:
+            if field in cv_fields:
+                return 1.0
+        # Check adjacent fields (acceptable but not ideal)
+        for field in adjacent:
+            if field in cv_fields:
+                return 0.7
+        # No field match at all
+        return 0.4
     return 0.6
 
 
@@ -164,15 +182,7 @@ def get_degree_level(text):
 
 
 # ── SENIORITY ─────────────────────────────────────────────────────────────────
-
-
-def detect_seniority(text):
-    text_lower = text.lower()
-    best = -1
-    for kw, lvl in SENIORITY_MAP.items():
-        if SENIORITY_PATTERNS[kw].search(text_lower):
-            best = max(best, lvl)
-    return best if best >= 0 else 2
+# detect_seniority() is imported from constants.py
 
 
 def cv_seniority(cv):
@@ -216,15 +226,8 @@ def seniority_penalty(cv_level, job_level):
 
 
 # ── SKILL HELPERS ─────────────────────────────────────────────────────────────
-
-
-def normalize_skill(s):
-    return re.sub(r"[^a-z0-9\+\#\.]", " ", s.lower()).strip()
-
-
-def canonicalize(skill):
-    s = normalize_skill(skill)
-    return SYNONYM_MAP.get(s, s)
+# normalize_skill(), canonicalize(), extract_known_skills_from_text()
+# are imported from constants.py
 
 
 def extract_skill_set(text):
@@ -232,21 +235,6 @@ def extract_skill_set(text):
         return set()
     parts = re.split(r"[,\n;|/]", text)
     return {canonicalize(p) for p in parts if p.strip() and 1 < len(p.strip()) < 40}
-
-
-def extract_known_skills_from_text(text):
-    """Extract known skills from free-form text using pre-compiled patterns."""
-    if not text:
-        return set()
-    text_lower = text.lower()
-    found = set()
-    for skill, pattern in CORE_SKILL_PATTERNS.items():
-        if pattern.search(text_lower):
-            found.add(canonicalize(skill))
-    for variant, pattern in SYNONYM_PATTERNS.items():
-        if pattern.search(text_lower):
-            found.add(SYNONYM_MAP.get(variant, variant))
-    return found
 
 
 def get_job_skills(meta):
@@ -275,6 +263,7 @@ def get_job_skills(meta):
 
 
 def _normalize_cv_skills(cv_skills):
+    """Flatten heterogeneous skill lists into a clean list of strings."""
     normalized = []
     for s in cv_skills:
         if s is None:
@@ -290,7 +279,13 @@ def _normalize_cv_skills(cv_skills):
                     normalized.append(val)
                     break
             continue
-        normalized.append(s)
+        # Safety: convert ints, lists, etc. to string or skip
+        if isinstance(s, (int, float)):
+            continue
+        try:
+            normalized.append(str(s))
+        except Exception:
+            continue
     return normalized
 
 
@@ -322,10 +317,16 @@ def _inferred_skill_score_without_job_skills(cv_skills, job_text, semantic_hint=
 
 
 def synthesize_cv_summary(cv) -> str:
+    """Build a rich text summary of the CV for semantic embedding.
+    Includes summary, experience, education, projects, and skills
+    so that fresh graduates with no work experience still embed well.
+    """
     parts = []
     summary = cv.get("summary", "").strip()
     if summary:
         parts.append(summary)
+
+    # Experience entries
     exp = cv.get("experience", [])
     entries = exp if isinstance(exp, list) else exp.get("entries", [])
     for e in entries[:3]:
@@ -334,49 +335,81 @@ def synthesize_cv_summary(cv) -> str:
         desc = e.get("description", "")[:150]
         if title:
             parts.append(f"{title} at {company}. {desc}")
+
+    # Education — critical for fresh graduates
+    for edu in cv.get("education", [])[:2]:
+        degree = edu.get("degree", "")
+        institution = edu.get("institution", "")
+        if degree:
+            parts.append(f"{degree} from {institution}.")
+
+    # Projects — often the strongest signal for students
+    projects = cv.get("projects", [])
+    if isinstance(projects, list):
+        for p in projects[:3]:
+            if isinstance(p, str) and p.strip():
+                parts.append(p.strip())
+            elif isinstance(p, dict):
+                pname = p.get("name", p.get("title", ""))
+                pdesc = p.get("description", "")[:100]
+                if pname:
+                    parts.append(f"Project: {pname}. {pdesc}")
+
+    # Skills list
     skills = cv.get("skills", [])
-    if skills:
-        parts.append(f"Skills: {', '.join(skills[:10])}")
+    norm_skills = _normalize_cv_skills(skills)
+    if norm_skills:
+        parts.append(f"Skills: {', '.join(norm_skills[:15])}")
+
     return " ".join(parts)
 
 
 def extract_skills_from_experience(cv):
+    """Extract known skills from experience descriptions and tech arrays."""
     exp = cv.get("experience", [])
     entries = exp if isinstance(exp, list) else exp.get("entries", [])
     skills = set()
     for e in entries:
-        desc = e.get("description", "").lower()
-        for skill, pattern in CORE_SKILL_PATTERNS.items():
-            if pattern.search(desc):
-                skills.add(canonicalize(skill))
+        # Extract from free-text description
+        desc = e.get("description", "")
+        skills |= extract_known_skills_from_text(desc)
+        # Extract from structured tech arrays
+        for tech in e.get("tech", []):
+            if isinstance(tech, str) and tech.strip():
+                skills.add(canonicalize(tech))
     return skills
 
 
 # ── SCORING FUNCTIONS ─────────────────────────────────────────────────────────
 
 
-def skill_score(cv_skills, job_skills, job_text="", semantic_hint=0.0):
-    normalized_cv_skills = _normalize_cv_skills(cv_skills)
-    cv_set = extract_skill_set(", ".join(normalized_cv_skills))
+def skill_score(cv_skill_set, job_skills, job_text="", semantic_hint=0.0):
+    """Score CV-to-job skill match. Accepts a pre-built canonicalized CV skill set."""
     if not job_skills:
-        return _inferred_skill_score_without_job_skills(cv_skills, job_text, semantic_hint)
+        return _inferred_skill_score_without_job_skills(list(cv_skill_set), job_text, semantic_hint)
 
     # Coverage-based metric: what fraction of *job* requirements does the CV cover?
-    # This avoids penalizing candidates who have extra skills beyond the job posting.
-    weighted_intersection = sum(skill_weight(s) for s in cv_set & job_skills)
+    exact_matches = cv_skill_set & job_skills
+    weighted_intersection = sum(skill_weight(s) for s in exact_matches)
     weighted_job_total = sum(skill_weight(s) for s in job_skills)
     coverage = weighted_intersection / weighted_job_total if weighted_job_total else 0.0
 
     # Partial matching bonus for substring overlap (e.g. "react" matches "react native")
-    partial = sum(1 for cs in cv_set for js in job_skills if cs != js and (cs in js or js in cs))
-    partial_bonus = min(partial / max(len(job_skills), 1), 0.2)
+    # Exclude skills already counted in exact matches to avoid double-counting
+    unmatched_cv = cv_skill_set - exact_matches
+    unmatched_job = job_skills - exact_matches
+    partial = sum(
+        1 for cs in unmatched_cv for js in unmatched_job
+        if cs in js or js in cs
+    )
+    partial_bonus = min(partial / max(len(job_skills), 1), 0.15)
 
     # If no direct or partial overlap at all, return 0 — no free points
     if coverage == 0.0 and partial_bonus == 0.0:
         return 0.0
 
     # Small breadth bonus — candidates with broader skill sets get a slight edge
-    breadth_bonus = min(len(cv_set) / 30, 0.1)
+    breadth_bonus = min(len(cv_skill_set) / 30, 0.08)
 
     return min(coverage + partial_bonus + breadth_bonus, 1.0)
 
@@ -507,9 +540,33 @@ def build_title_scores(model, cv, job_metadata):
     return np.clip(sim_matrix.max(axis=1), 0, 1)
 
 
+def _build_unified_cv_skills(cv, cv_exp_skills):
+    """Merge all skill sources from a CV into one canonicalized set.
+    Sources: top-level skills[], experience tech[], experience description NLP.
+    """
+    # Top-level skills from the CV JSON
+    raw_skills = _normalize_cv_skills(cv.get("skills", []))
+    top_level = extract_skill_set(", ".join(raw_skills))
+
+    # Tech arrays from experience entries
+    exp = cv.get("experience", [])
+    entries = exp if isinstance(exp, list) else exp.get("entries", [])
+    tech_skills = set()
+    for e in entries:
+        for tech in e.get("tech", []):
+            if isinstance(tech, str) and tech.strip():
+                tech_skills.add(canonicalize(tech))
+
+    return top_level | tech_skills | cv_exp_skills
+
+
 def score_jobs(cv, job_metadata, semantic_scores, title_scores_all, cv_level, cv_years, cv_exp_skills):
     results = []
     cv_location = cv.get("location", "")
+
+    # Build unified CV skill set ONCE — not per-job
+    cv_skill_set = _build_unified_cv_skills(cv, cv_exp_skills)
+
     for i, meta in enumerate(job_metadata):
         job_title = meta.get("job_title", "")
         job_desc = meta.get("job_description", "")
@@ -519,7 +576,7 @@ def score_jobs(cv, job_metadata, semantic_scores, title_scores_all, cv_level, cv
 
         s_sem = max(0.0, float(semantic_scores[i]))
         s_skill = skill_score(
-            cv.get("skills", []),
+            cv_skill_set,
             job_skills,
             job_text=f"{job_title} {job_desc} {job_add}",
             semantic_hint=s_sem,

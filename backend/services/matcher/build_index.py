@@ -23,20 +23,14 @@ from .constants import (
     CORE_SKILL_PATTERNS,
     SENIORITY_MAP,
     SENIORITY_PATTERNS,
-    SYNONYM_MAP,
+    canonicalize,
+    detect_seniority,
+    extract_known_skills_from_text,
 )
 
 
-def detect_seniority(text):
-    text_lower = text.lower()
-    best = -1
-    for kw, lvl in SENIORITY_MAP.items():
-        if SENIORITY_PATTERNS[kw].search(text_lower):
-            best = max(best, lvl)
-    return best if best >= 0 else 2
-
-
 def extract_skills_from_desc(text):
+    """Extract known skills from job description using pattern matching."""
     if not text:
         return []
     text_lower = text.lower()
@@ -45,17 +39,6 @@ def extract_skills_from_desc(text):
         if pattern.search(text_lower):
             found.append(skill)
     return found
-
-
-def canonicalize(skill):
-    """Normalize a skill string to its canonical form."""
-    s = re.sub(r"[^a-z0-9\+\#\.]", " ", skill.lower()).strip()
-    return SYNONYM_MAP.get(s, s)
-
-
-def canonicalize_skills(skills):
-    """Return a deduplicated list of canonical skill strings."""
-    return list({canonicalize(s) for s in skills if s.strip()})
 
 
 def extract_required_years(job_desc, job_edu):
@@ -74,6 +57,14 @@ def extract_required_years(job_desc, job_edu):
         if m:
             return float(m.group(1))
     return 0.0
+
+
+def _parse_skill_list(raw: str) -> list[str]:
+    """Split a comma/newline/semicolon-delimited skill string into parts."""
+    if not raw or not raw.strip():
+        return []
+    parts = re.split(r"[,\n;|/]", raw)
+    return [p.strip() for p in parts if p.strip() and 1 < len(p.strip()) < 40]
 
 
 def build_job_text(job):
@@ -117,8 +108,21 @@ async def main(output_prefix: str = "job_index"):
         job_desc = job.get("job_description", "")
         job_add = job.get("additional_requirements", "")
         job_edu = job.get("education_requirements", "")
+        skills_required_raw = job.get("skills_required", "")
 
-        extracted = extract_skills_from_desc(job_desc + " " + job_add)
+        # Extract skills from description + additional requirements
+        desc_extracted = extract_skills_from_desc(job_desc + " " + job_add)
+
+        # Parse structured skills_required field
+        structured_skills = _parse_skill_list(skills_required_raw)
+
+        # Also extract known skills from the skills_required text itself
+        # (catches skills embedded in prose-style requirements)
+        skills_from_text = extract_known_skills_from_text(skills_required_raw)
+
+        # Merge all sources → canonicalize → deduplicate
+        all_raw_skills = set(desc_extracted) | set(structured_skills) | skills_from_text
+        canonical_skills = list({canonicalize(s) for s in all_raw_skills if s.strip()})
 
         meta = {
             "job_id": job.get("job_id"),
@@ -129,15 +133,16 @@ async def main(output_prefix: str = "job_index"):
             "location": job.get("location"),
             "salary_range": job.get("salary_range"),
             "deadline": job.get("deadline"),
-            "skills_required": job.get("skills_required", ""),
+            "skills_required": skills_required_raw,
             "education_requirements": job_edu,
+            "additional_requirements": job_add[:500],
             "job_description": job_desc[:800],
             # Pre-extracted fields
-            "extracted_skills": extracted,
+            "extracted_skills": desc_extracted,
             "required_years": extract_required_years(job_desc + " " + job_add, job_edu),
             "seniority_level": detect_seniority(job_title + " " + job_desc[:200]),
-            # Pre-canonicalized skills for fast lookup in cv_matcher
-            "canonical_skills": canonicalize_skills(extracted),
+            # Pre-canonicalized skills — merged from all sources
+            "canonical_skills": canonical_skills,
         }
         metadata.append(meta)
         texts.append(build_job_text(job))
