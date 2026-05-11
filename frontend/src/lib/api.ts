@@ -13,7 +13,7 @@ export async function parseCV(file: File): Promise<CVData> {
 
   if (!response.ok) {
     const err = await response.json().catch(() => ({ message: `HTTP ${response.status}` }));
-    throw new Error(err.message ?? `Server error: ${response.status} `);
+    throw new Error(err.message ?? `Server error: ${response.status}`);
   }
 
   return response.json();

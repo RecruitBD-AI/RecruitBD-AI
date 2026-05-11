@@ -67,7 +67,7 @@ export function UploadView({ file, error, isDemo, dispatch, onParse, onDemo }: U
 
           <CardContent className="flex flex-1 flex-col px-6 py-4">
             {error && (
-              <div className="text-destructive bg-destructive/10 mb-3 flex items-center gap-2 rounded-md border p-3">
+              <div className="text-destructive bg-destructive/10 mb-3 flex items-center justify-center gap-2 rounded-md border p-3">
                 <BadgeAlertIcon size={18} />
                 {error}
               </div>
