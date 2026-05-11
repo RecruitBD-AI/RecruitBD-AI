@@ -1,3 +1,4 @@
+import logging
 import json
 import os
 import sys
@@ -139,50 +140,69 @@ def parse_cv_ollama(text) -> dict[str, Any]:
     """Parse CV text into structured JSON according to the defined schema using Ollama."""
     prompt = PROMPT_TEMPLATE.format(text=text)
 
-    response = chat(
-        model="gemma3",
-        messages=[
-            {
-                "role": "system",
-                "content": "You output ONLY JSON that strictly follows the schema. No variation allowed.",
+    try:
+        response = chat(
+            model="gemma3",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You output ONLY JSON that strictly follows the schema. No variation allowed.",
+                },
+                {"role": "user", "content": prompt},
+            ],
+            format="json",
+            think=False,
+            options={
+                "num_ctx": 4096,
+                "temperature": 0,
+                "top_p": 1,
+                "top_k": 1,
             },
-            {"role": "user", "content": prompt},
-        ],
-        format="json",
-        think=False,
-        options={
-            "num_ctx": 4096,
-            "temperature": 0,
-            "top_p": 1,
-            "top_k": 1,
-        },
-    )
+        )
 
-    if not response.done:
-        raise ValueError("Model did not return a response.")
+        if not response.done:
+            raise ValueError("Model did not return a response.")
 
-    raw = response.message.content
-    if raw is None:
-        raise ValueError("Model response is empty.")
+        raw = response.message.content
+        if raw is None:
+            raise ValueError("Model response is empty.")
 
-    return json.loads(raw.strip())
+        return json.loads(raw.strip())
+
+    except json.JSONDecodeError as e:
+        logging.error(f"Ollama returned invalid JSON: {str(e)}")
+        raise ValueError(f"Ollama returned invalid JSON: {str(e)}") from e
+
+    except Exception as e:
+        logging.error(f"Ollama parsing failed: {str(e)}")
+        raise ValueError(f"Ollama parsing failed: {str(e)}") from e
 
 
 def parse_cv_genai(text) -> dict[str, Any]:
     """Parse CV text using GenAI's structured output capabilities."""
     prompt = PROMPT_TEMPLATE.format(text=text)
-    client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
-    model = "gemini-2.5-flash"
-    response = client.models.generate_content(
-        model=model,
-        contents=prompt,
-        config=types.GenerateContentConfig(response_mime_type="application/json", temperature=0),
-    )
 
-    raw = response.text
-    if raw is None:
-        raise ValueError("Model response is empty.")
-    return json.loads(raw.strip())
+    try:
+        client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+        model = "gemini-2.5-flash"
+        response = client.models.generate_content(
+            model=model,
+            contents=prompt,
+            config=types.GenerateContentConfig(response_mime_type="application/json", temperature=0),
+        )
+
+        raw = response.text
+        if raw is None:
+            raise ValueError("Model response is empty.")
+        return json.loads(raw.strip())
+
+    except json.JSONDecodeError as e:
+        logging.error(f"GenAI returned invalid JSON: {str(e)}")
+        raise ValueError(f"GenAI returned invalid JSON: {str(e)}") from e
+
+    except Exception as e:
+        logging.error(f"GenAI parsing failed: {str(e)}")
+        raise ValueError(f"GenAI parsing failed: {str(e)}") from e
 
 
 def parse_cv(text) -> dict[str, Any]:
