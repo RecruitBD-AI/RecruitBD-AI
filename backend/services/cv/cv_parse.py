@@ -35,7 +35,7 @@ SCHEMA:
   "skills": [],
   "experience": [
     {{
-      "type": "work | project",
+      "type": "job" | "internship" | "freelance" | "project",
       "title": "",
       "company": "",
       "start_date": "",
@@ -63,46 +63,39 @@ GENERAL:
 - Do NOT assume missing data.
 - If unsure, leave empty.
 
-EXPERIENCE:
-- Include all work-related and project-related items under "experience".
-- Each item must be a separate object.
-- Use the "type" field to classify entries.
-
-VALID TYPES:
-- "work"
-- "project"
-
-WORK RULES:
-- Use type = "work" for:
+EXPERIENCE (IMPORTANT):
+- Include ALL work-related items under "experience":
   - jobs
   - internships
   - freelance work
-  - research assistant roles
-  - teaching assistant roles
-
-PROJECT RULES:
-- Use type = "project" for:
-  - personal projects
-  - academic projects
-  - portfolio projects
-  - GitHub projects
-  - hackathon projects
-
-- If unclear whether something is work or project:
-  - classify it as "project"
-
-- Projects may not have company names.
-- If company is missing, use "".
+  - projects (VERY IMPORTANT)
+- Each entry must be a separate object.
+- Set "type" field to one of:
+  - "job"
+  - "internship"
+  - "freelance"
+  - "project"
+- If unclear whether something is a job or project, classify it as "project".
+- One object per distinct item (not per bullet point).
 - If no experience exists, return [].
 
+PROJECT RULES (inside experience):
+- Projects MUST be included under experience with type = "project".
+- Projects may come from sections like:
+  - Projects
+  - Personal Projects
+  - Portfolio
+  - Hackathons
+  - GitHub repositories
+- Projects usually do NOT have a company name; keep company as "" if missing.
+
 DESCRIPTION RULES:
-- "description" must be a single concise string.
-- Combine multiple bullet points into one readable sentence if necessary.
-- Do NOT return an array.
+- Each bullet must be preserved separately.
+- Do NOT merge bullets into one string.
 
 TECH RULES:
 - Extract only explicitly mentioned technologies.
-- Do NOT infer technologies or skills.
+- Do NOT infer skills.
 
 EDUCATION:
 - One object per degree.
@@ -110,7 +103,6 @@ EDUCATION:
 SKILLS:
 - Extract only explicitly written skills.
 - No inference.
-
 
 CV TEXT:
 {text}

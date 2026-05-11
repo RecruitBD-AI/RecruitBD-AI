@@ -14,7 +14,7 @@ export interface CVData {
 }
 
 export interface ExperienceEntry {
-  type: "work" | "project";
+  type: "job" | "internship" | "freelance" | "project";
   title: string;
   company: string;
   startDate: string;
