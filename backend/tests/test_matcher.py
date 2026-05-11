@@ -28,7 +28,7 @@ def test_skill_weight():
 
     # Synonym variants should also resolve to core-skill weight
     assert skill_weight("nodejs") == 1.5  # canonicalizes to "javascript"
-    assert skill_weight("cpp") == 1.5     # canonicalizes to "c++"
+    assert skill_weight("cpp") == 1.5  # canonicalizes to "c++"
 
     # Soft skills
     assert skill_weight("communication") == 0.3
@@ -58,8 +58,8 @@ def test_extract_skill_set():
     """Test skill extraction and canonicalization from delimited text."""
     result = extract_skill_set("Python, React.js, Node.js, Docker")
     assert "python" in result
-    assert "react" in result          # react.js → react
-    assert "javascript" in result     # node.js → javascript
+    assert "react" in result  # react.js → react
+    assert "javascript" in result  # node.js → javascript
     assert "docker" in result
 
     # Single-char items should be filtered out
@@ -94,11 +94,13 @@ def test_normalize_cv_skills_strings():
 
 def test_normalize_cv_skills_dicts():
     """Test that dict skills are extracted by common key names."""
-    result = _normalize_cv_skills([
-        {"name": "Python"},
-        {"skill": "React"},
-        {"title": "Docker"},
-    ])
+    result = _normalize_cv_skills(
+        [
+            {"name": "Python"},
+            {"skill": "React"},
+            {"title": "Docker"},
+        ]
+    )
     assert result == ["Python", "React", "Docker"]
 
 
@@ -224,10 +226,10 @@ def test_skill_score_no_job_skills():
 
 def test_seniority_penalty():
     """Test that seniority gap reduces scores appropriately."""
-    assert seniority_penalty(2, 2) == 1.0    # exact match
-    assert seniority_penalty(2, 3) == 0.85   # 1 level gap
-    assert seniority_penalty(0, 2) == 0.65   # 2 level gap
-    assert seniority_penalty(0, 4) == 0.40   # 4 level gap (harsh)
+    assert seniority_penalty(2, 2) == 1.0  # exact match
+    assert seniority_penalty(2, 3) == 0.85  # 1 level gap
+    assert seniority_penalty(0, 2) == 0.65  # 2 level gap
+    assert seniority_penalty(0, 4) == 0.40  # 4 level gap (harsh)
 
 
 # ── EXPERIENCE SCORING ────────────────────────────────────────────────────────
@@ -330,11 +332,11 @@ def test_build_unified_cv_skills():
     exp_skills = extract_skills_from_experience(cv)
     unified = _build_unified_cv_skills(cv, exp_skills)
 
-    assert "react" in unified         # from top-level skills
-    assert "typescript" in unified    # from top-level skills
-    assert "docker" in unified        # from tech array
-    assert "python" in unified        # from description NLP
-    assert "django" in unified        # from description NLP
+    assert "react" in unified  # from top-level skills
+    assert "typescript" in unified  # from top-level skills
+    assert "docker" in unified  # from tech array
+    assert "python" in unified  # from description NLP
+    assert "django" in unified  # from description NLP
 
 
 # ── CV SUMMARY ────────────────────────────────────────────────────────────────
@@ -372,4 +374,3 @@ def test_synthesize_cv_summary_experienced():
     assert "Software Engineer" in summary
     assert "Google" in summary
     assert "MSc in CS" in summary
-

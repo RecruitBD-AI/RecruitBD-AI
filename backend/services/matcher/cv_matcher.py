@@ -108,9 +108,7 @@ def field_of_study_score(cv_education, job_title, job_desc):
     """Score how well the candidate's field of study matches the job.
     Uses tiered relevance: primary fields → 1.0, adjacent fields → 0.7.
     """
-    cv_fields = " ".join(
-        e.get("degree", "") + " " + e.get("institution", "") for e in cv_education
-    ).lower()
+    cv_fields = " ".join(e.get("degree", "") + " " + e.get("institution", "") for e in cv_education).lower()
     job_text = (job_title + " " + job_desc[:300]).lower()
 
     for keyword, (primary, adjacent) in FIELD_RELEVANCE.items():
@@ -398,10 +396,7 @@ def skill_score(cv_skill_set, job_skills, job_text="", semantic_hint=0.0):
     # Exclude skills already counted in exact matches to avoid double-counting
     unmatched_cv = cv_skill_set - exact_matches
     unmatched_job = job_skills - exact_matches
-    partial = sum(
-        1 for cs in unmatched_cv for js in unmatched_job
-        if cs in js or js in cs
-    )
+    partial = sum(1 for cs in unmatched_cv for js in unmatched_job if cs in js or js in cs)
     partial_bonus = min(partial / max(len(job_skills), 1), 0.15)
 
     # If no direct or partial overlap at all, return 0 — no free points

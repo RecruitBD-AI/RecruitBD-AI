@@ -21,8 +21,6 @@ from core.config import DATA_DIR, INDEX_DIR, SBERT_MODEL
 
 from .constants import (
     CORE_SKILL_PATTERNS,
-    SENIORITY_MAP,
-    SENIORITY_PATTERNS,
     canonicalize,
     detect_seniority,
     extract_known_skills_from_text,

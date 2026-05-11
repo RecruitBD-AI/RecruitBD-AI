@@ -246,9 +246,7 @@ def _build_word_pattern(term: str) -> re.Pattern:
 
 
 # Patterns for every core skill
-CORE_SKILL_PATTERNS: dict[str, re.Pattern] = {
-    skill: _build_word_pattern(skill) for skill in CORE_SKILLS
-}
+CORE_SKILL_PATTERNS: dict[str, re.Pattern] = {skill: _build_word_pattern(skill) for skill in CORE_SKILLS}
 
 # Patterns for every synonym variant
 SYNONYM_PATTERNS: dict[str, re.Pattern] = {}
@@ -261,9 +259,7 @@ for _canonical, _variants in SKILL_SYNONYMS:
         SYNONYM_PATTERNS[_canonical] = _build_word_pattern(_canonical)
 
 # Patterns for seniority keywords
-SENIORITY_PATTERNS: dict[str, re.Pattern] = {
-    kw: _build_word_pattern(kw) for kw in SENIORITY_MAP
-}
+SENIORITY_PATTERNS: dict[str, re.Pattern] = {kw: _build_word_pattern(kw) for kw in SENIORITY_MAP}
 
 
 def build_synonym_map() -> dict[str, str]:
