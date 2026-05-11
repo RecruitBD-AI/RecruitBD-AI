@@ -92,7 +92,7 @@ export function ProfileView({ cv, topN, error, dispatch, onMatch, onBack }: Prof
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex w-full items-center justify-between gap-2 md:w-auto">
           <Button variant="outline" size="sm" onClick={onBack}>
             <ArrowLeftIcon /> Back
           </Button>
@@ -118,7 +118,7 @@ export function ProfileView({ cv, topN, error, dispatch, onMatch, onBack }: Prof
         </Card>
       )}
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {/* Skills */}
         <Card className="p-5">
           <div className="text-muted-foreground flex flex-row text-[11px] font-medium tracking-widest uppercase">

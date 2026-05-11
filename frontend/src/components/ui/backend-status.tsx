@@ -9,7 +9,7 @@ type Status = "loading" | "ok" | "error";
 
 const STATUS_CONFIG: Record<Status, { label: string; color: string; icon: ReactNode }> = {
   loading: {
-    label: "Checking Server...",
+    label: "Checking...",
     color: "border-chart-4/20 bg-chart-4/10 text-chart-4",
     icon: <ActivityIcon size={14} />,
   },

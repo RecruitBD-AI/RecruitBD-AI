@@ -5,7 +5,7 @@ import { memo } from "react";
 
 export const StepBar = memo(function StepBar({ current }: { current: number }) {
   return (
-    <div className="flex items-center gap-0">
+    <div className="hidden items-center gap-0 md:flex">
       {VIEWS.map((s, i) => (
         <div key={i} className="flex items-center gap-2">
           <div className="flex items-center gap-2">

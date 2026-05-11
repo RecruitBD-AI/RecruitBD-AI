@@ -114,7 +114,7 @@ function Header({
         <div className="text-muted-foreground mb-1 text-sm">Result for</div>
         <h2 className="text-2xl leading-relaxed font-semibold">{name}</h2>
       </div>
-      <div className="flex items-center gap-1">
+      <div className="flex w-full items-center justify-between gap-1 md:w-auto">
         <Button variant="outline" size="sm" onClick={onBack}>
           <ArrowLeftIcon /> Back
         </Button>
