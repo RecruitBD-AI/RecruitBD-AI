@@ -1,7 +1,9 @@
+#:schema https://www.schemastore.org/pyproject.json
+
 [project]
 name = "recruitbd-ai"
 version = "0.1.0"
-description = "Add your description here"
+description = "RecruitBD-AI is an AI-powered CV parsing and job matching platform."
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
@@ -49,3 +51,6 @@ line-length = 120
 
 [tool.pytest]
 pythonpath = ["."]
+
+[dependency-groups]
+dev = ["pre-commit>=4.6.0"]
