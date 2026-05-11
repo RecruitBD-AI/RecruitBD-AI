@@ -515,19 +515,11 @@ def workplace_score(cv_location, job_location, job_workplace):
     return 0.6
 
 
-def build_title_scores(model, cv, job_metadata):
+def build_title_scores(model, cv, job_metadata, job_title_embs):
     exp = cv.get("experience", [])
     entries = exp if isinstance(exp, list) else exp.get("entries", [])
     past_titles = [e.get("title", "").strip() for e in entries if e.get("title", "").strip()]
 
-    all_job_titles = [m.get("job_title", "") or "unknown" for m in job_metadata]
-    job_title_embs = model.encode(
-        all_job_titles,
-        batch_size=128,
-        normalize_embeddings=True,
-        convert_to_numpy=True,
-        show_progress_bar=False,
-    )
     if not past_titles:
         return np.full(len(job_metadata), 0.4)
 
@@ -636,6 +628,7 @@ def score_jobs(cv, job_metadata, semantic_scores, title_scores_all, cv_level, cv
 def match_cv_dict(
     cv: dict,
     job_embeddings,
+    job_title_embeddings,
     job_metadata: list,
     model,
     top_n: int = 10,
@@ -651,7 +644,7 @@ def match_cv_dict(
     cv_emb = model.encode(cv_summary, normalize_embeddings=True, convert_to_numpy=True)
     semantic_scores = job_embeddings @ cv_emb
 
-    title_scores_all = build_title_scores(model, cv, job_metadata)
+    title_scores_all = build_title_scores(model, cv, job_metadata, job_title_embeddings)
     results = score_jobs(cv, job_metadata, semantic_scores, title_scores_all, cv_level, cv_years, cv_exp_skills)
     return results[:top_n]
 
@@ -663,11 +656,13 @@ def match(cv_path, index_prefix, top_n=10, output_path=None):
 
     # Load precomputed index
     emb_path = f"{index_prefix}_embeddings.npy"
+    title_emb_path = f"{index_prefix}_title_embeddings.npy"
     meta_path = f"{index_prefix}_metadata.json"
 
     print(f"CV      : {cv.get('name')}")
     print("Loading job index...")
     job_embeddings = np.load(emb_path)
+    job_title_embeddings = np.load(title_emb_path)
     with open(meta_path, "r", encoding="utf-8") as f:
         job_metadata = json.load(f)
     print(f"Jobs    : {len(job_metadata)} loaded from index")
@@ -691,8 +686,8 @@ def match(cv_path, index_prefix, top_n=10, output_path=None):
     print("Computing semantic similarities...")
     semantic_scores = job_embeddings @ cv_emb  # dot product on normalized = cosine sim
 
-    print("Pre-encoding job titles in batch...")
-    title_scores_all = build_title_scores(model, cv, job_metadata)
+    print("Calculating title similarity...")
+    title_scores_all = build_title_scores(model, cv, job_metadata, job_title_embeddings)
 
     print(f"Scoring {len(job_metadata)} jobs...")
     results = score_jobs(cv, job_metadata, semantic_scores, title_scores_all, cv_level, cv_years, cv_exp_skills)

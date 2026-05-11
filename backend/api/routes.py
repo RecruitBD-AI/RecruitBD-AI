@@ -49,16 +49,17 @@ async def match_jobs(
     """Accept parsed CV JSON, return top-N job matches with scores."""
     model = request.app.state.model
     job_embeddings = request.app.state.job_embeddings
+    job_title_embeddings = request.app.state.job_title_embeddings
     job_metadata = request.app.state.job_metadata
 
-    if model is None or job_embeddings is None or job_metadata is None:
+    if model is None or job_embeddings is None or job_title_embeddings is None or job_metadata is None:
         logging.error("Model or job index not loaded.")
         raise HTTPException(status_code=503, detail="Job matching service is not available.")
 
     try:
         from services import match_cv_dict
 
-        results = match_cv_dict(cv_data, job_embeddings, job_metadata, model, top_n=top)
+        results = match_cv_dict(cv_data, job_embeddings, job_title_embeddings, job_metadata, model, top_n=top)
         return results
     except Exception as e:
         logging.error(f"Error matching jobs: {str(e)}", exc_info=True)

@@ -157,18 +157,32 @@ async def main(output_prefix: str = "job_index"):
         normalize_embeddings=True,  # pre-normalize for faster cosine sim
     )
 
+    # Encode job titles for the title-matching scoring step
+    all_job_titles = [m.get("job_title", "") or "unknown" for m in metadata]
+    print(f"Encoding {len(all_job_titles)} job titles in batch...")
+    title_embeddings = model.encode(
+        all_job_titles,
+        batch_size=128,
+        show_progress_bar=True,
+        convert_to_numpy=True,
+        normalize_embeddings=True,
+    )
+
     # Save to INDEX_DIR
     INDEX_DIR.mkdir(exist_ok=True)
     emb_path = INDEX_DIR / f"{output_prefix}_embeddings.npy"
+    title_emb_path = INDEX_DIR / f"{output_prefix}_title_embeddings.npy"
     meta_path = INDEX_DIR / f"{output_prefix}_metadata.json"
 
     np.save(emb_path, embeddings)
+    np.save(title_emb_path, title_embeddings)
     with open(meta_path, "w", encoding="utf-8") as f:
         json.dump(metadata, f, ensure_ascii=False)
 
     print("\n[SUCCESS] Index built successfully!")
-    print(f"   Embeddings -> {emb_path}  ({embeddings.shape})")
-    print(f"   Metadata   -> {meta_path}  ({len(metadata)} jobs)")
+    print(f"   Desc Embeddings  -> {emb_path}  ({embeddings.shape})")
+    print(f"   Title Embeddings -> {title_emb_path}  ({title_embeddings.shape})")
+    print(f"   Metadata         -> {meta_path}  ({len(metadata)} jobs)")
     print(f"\nNow run cv_matcher.py with --index {output_prefix}")
 
 
