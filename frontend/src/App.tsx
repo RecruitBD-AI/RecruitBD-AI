@@ -51,7 +51,7 @@ export default function App() {
         payload: `Parse failed: ${(err as Error).message}.`,
       });
     }
-  }, [state.isDemo, state.file, startAnimation]);
+  }, [state.isDemo, state.file, startAnimation, clearTimer, setAnimationStep]);
 
   const handleMatch = useCallback(async () => {
     const isDemo = state.isDemo;
@@ -75,7 +75,7 @@ export default function App() {
         payload: `Match failed: ${(err as Error).message}.`,
       });
     }
-  }, [state.isDemo, state.cvData, state.topN, startAnimation]);
+  }, [state.isDemo, state.cvData, state.topN, startAnimation, clearTimer]);
 
   const handleBack = () => {
     dispatch({ type: "GO_BACK" });
