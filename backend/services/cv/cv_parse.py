@@ -89,10 +89,6 @@ PROJECT RULES (inside experience):
   - GitHub repositories
 - Projects usually do NOT have a company name; keep company as "" if missing.
 
-DESCRIPTION RULES:
-- Each bullet must be preserved separately.
-- Do NOT merge bullets into one string.
-
 TECH RULES:
 - Extract only explicitly mentioned technologies.
 - Do NOT infer skills.
